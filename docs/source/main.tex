@@ -1,0 +1,1396 @@
+%%%%%%%% ICML 2026 EXAMPLE LATEX SUBMISSION FILE %%%%%%%%%%%%%%%%%
+
+\documentclass{article}
+
+% Recommended, but optional, packages for figures and better typesetting:
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs} % for professional tables
+
+% hyperref makes hyperlinks in the resulting PDF.
+% If your build breaks (sometimes temporarily if a hyperlink spans a page)
+% please comment out the following usepackage line and replace
+% \usepackage{icml2026} with \usepackage[nohyperref]{icml2026} above.
+\usepackage{hyperref}
+
+
+% Attempt to make hyperref and algorithmic work together better:
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+% Use the following line for the initial blind version submitted for review:
+% \usepackage{icml2026}
+
+% For preprint, use
+\usepackage[preprint]{icml2026}
+
+% If accepted, instead use the following line for the camera-ready submission:
+% \usepackage[accepted]{icml2026}
+
+\usepackage{amsmath}
+\usepackage{thm-restate}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{amsthm}
+
+% Draw circuits
+\usepackage{yquant}
+\useyquantlanguage{groups}
+\usepackage{graphicx}
+\usepackage{tikz,yquant,physics,tabularray}
+\usetikzlibrary{calc}
+% \tikzset{
+%   dot/.style={
+%     circle, fill=black, inner sep=1pt, outer sep=0pt
+%   }
+% }
+\makeatletter
+\DeclareRobustCommand\rvdots{%
+\vbox{%
+\baselineskip4\p@\lineskiplimit\z@%
+\kern-\p@%
+\hbox{.}\hbox{.}\hbox{.}%
+}%
+}
+% if you use cleveref..
+\usepackage[capitalize,noabbrev]{cleveref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THEOREMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Todonotes is useful during development; simply uncomment the next line
+%    and comment out the line below the next line to turn off comments
+%\usepackage[disable,textsize=tiny]{todonotes}
+\usepackage[textsize=tiny]{todonotes}
+\usepackage{braket}
+% The \icmltitle you define below is probably too long as a header.
+% Therefore, a short form for the running title is supplied here:
+\icmltitlerunning{SAQNN: Spectral Adaptive Quantum Neural Network as a Universal Approximator}
+
+\begin{document}
+\yquantdefinebox{dots}[inner sep=0pt]{$\dots$}
+\twocolumn[
+  \icmltitle{SAQNN: Spectral Adaptive Quantum Neural Network as a Universal Approximator}
+
+  % It is OKAY to include author information, even for blind submissions: the
+  % style file will automatically remove it for you unless you've provided
+  % the [accepted] option to the icml2026 package.
+
+  % List of affiliations: The first argument should be a (short) identifier you
+  % will use later to specify author affiliations Academic affiliations
+  % should list Department, University, City, Region, Country Industry
+  % affiliations should list Company, City, Region, Country
+
+  % You can specify symbols, otherwise they are numbered in order. Ideally, you
+  % should not use this facility. Affiliations will be numbered in order of
+  % appearance and this is the preferred way.
+  \icmlsetsymbol{equal}{*}
+
+  \begin{icmlauthorlist}
+    \icmlauthor{Jialiang Tang}{ict,ucas}
+    \icmlauthor{Jialin Zhang}{ict,ucas}
+    \icmlauthor{Xiaoming Sun}{ict,ucas}
+  \end{icmlauthorlist}
+
+  \icmlaffiliation{ucas}{School of Computer Science and Technology, University of Chinese Academy of Sciences, Beijing 100049, China}
+  \icmlaffiliation{ict}{State Key Lab of Processors, Institute of Computing Technology, Chinese Academy of Sciences, Beijing 100190, China}
+
+
+  \icmlcorrespondingauthor{Jialiang Tang}{tangjialiang20@mails.ucas.ac.cn}
+  \icmlcorrespondingauthor{Xiaoming Sun}{sunxiaoming@ict.ac.cn}
+
+  % You may provide any keywords that you find helpful for describing your
+  % paper; these are used to populate the "keywords" metadata in the PDF but
+  % will not be shown in the document
+  \icmlkeywords{Quantum Machine Learning, Quantum Neural Network, Universal Approximation Property}
+
+  \vskip 0.3in
+]
+
+% this must go after the closing bracket ] following \twocolumn[ ...
+
+% This command actually creates the footnote in the first column listing the
+% affiliations and the copyright notice. The command takes one argument, which
+% is text to display at the start of the footnote. The \icmlEqualContribution
+% command is standard text for equal contribution. Remove it (just {}) if you
+% do not need this facility.
+
+% Use ONE of the following lines. DO NOT remove the command.
+% If you have no special notice, KEEP empty braces:
+\printAffiliationsAndNotice{}  % no special notice (required even if empty)
+% Or, if applicable, use the standard equal contribution text:
+% \printAffiliationsAndNotice{\icmlEqualContribution}
+
+\begin{abstract}
+  Quantum machine learning (QML), as an interdisciplinary field bridging quantum computing and machine learning, has garnered significant attention in recent years. Currently, the field as a whole faces challenges due to incomplete theoretical foundations for the expressivity of quantum neural networks (QNNs). In this paper we propose a constructive QNN model and demonstrate that it possesses the universal approximation property (UAP), which means it can approximate any square-integrable function up to arbitrary accuracy. Furthermore, it supports switching function bases, thus adaptable to various scenarios in numerical approximation and machine learning. Our model has asymptotic advantages over the best classical feed-forward neural networks in terms of circuit size and achieves optimal parameter complexity when approximating Sobolev functions under $L_2$ norm.
+\end{abstract}
+
+\section{Introduction}
+% Quantum computing is a novel computational paradigm that leverages the principles of quantum mechanics. It has a definitive advantage over classical counterparts on specific problems. Notable examples include Shor's algorithm for integer factorization \yrcite{Shor1995}, Grover’s algorithm for unstructured search \yrcite{Grover}, and the HHL algorithm for the rapid solution of linear systems of equations \cite{Harrow2009}. Such capabilities pose potentially disruptive challenges to numerous fields.
+Quantum computing is a novel computational paradigm leveraging the high-dimensionality of Hilbert spaces to perform computations that are intractable for classical devices. While algorithms such as Shor's algorithm for integer factorization \yrcite{Shor1995} and Grover's algorithm for unstructured search \yrcite{Grover} have demonstrated quantum advantages, a broader question remains: can this computational power be harnessed for machine learning? This inquiry has given rise to Quantum Machine Learning (QML), a field dedicated to investigating the performance of quantum models in machine learning tasks \cite{Schuld2015,QML2017,Dallaire2018,Schuld2020,Cerezo2021,Huang2021,yan25}.
+
+Over the past decades, machine learning has achieved remarkable success, fundamentally reshaping modern technology. Models constructed on classical architectures, including deep Feed-Forward Networks (FNNs) \cite{Rumelhart1986,Bebis1994,Eldan2015,qamar2023,aftabi2025} to recent advancements in diffusion models \cite{diffusion2015,ho2020,song2021,he2025} and Large Language Models (LLMs) \cite{vaswani2017,brown2020,ouyang2022,naveed2025}, are now capable of executing complex tasks like classification, clustering, and high-fidelity generation. The success is underpinned by a mature theoretical framework, most notably the Universal Approximation Theorem (UAT) \cite{cybenko1989,hornik1989}. This theorem guarantees that classical neural networks, given sufficient width or depth, can approximate continuous functions to arbitrary accuracy, providing a solid mathematical justification for their expressive power.
+
+Quantum Neural Networks (QNNs) which are typically realized as parameterized quantum circuits (PQCs) have been deployed across a vast array of learning tasks in recent years \cite{schuld2014,killoran2019,jia2019,abbas2021}, from image classification \cite{farhi2018,schuld2019,mathur2021,shi2024} to solving physical systems \cite{li2017,kandala2017,yuan2019,lubasch2020,kyriienko2021}. Despite this empirical enthusiasm, the theoretical foundations of QNNs remain underdeveloped compared to the mature approximation theory of classical neural networks. A significant portion of QNNs research relies on heuristic network designs, where the relationship between the circuit architecture and the function space it can approximate is poorly understood. This leads to a critical bottleneck: without a rigorous understanding of the relations between model structure and its expressivity, it is difficult to determine whether a quantum model offers genuine advantages over classical models like deep neural networks. Also, how to construct powerful QNNs theoretically reliably is a question.
+
+% Simultaneously, machine learning has achieved remarkable success in recent years. Models constructed on classical architectures are now capable of executing complex tasks including classification \cite{}, clustering \cite{}, and generation \cite{}. Concepts such as Neural Networks \cite{}, Deep Learning \cite{}, Boltzmann Machines \cite{}, Diffusion Models \cite{}, and Large Language Models (LLMs) \cite{} have been developed and deployed across a vast array of learning tasks \cite{}. These models play a constructive role in modern life, with their outstanding performance in a great many areas.
+The central challenge is to establish a constructive approximation theory for QNNs. Unlike classical neural networks, QNNs must use quantum processes like measurement or data re-uploading schemes to realize the approximation while adhering to unitary constraints. Furthermore, for a QNN to be practically viable, it is insufficient to merely prove that it can approximate functions, the more important thing is to quantify the cost of circuit. This paper addresses these challenges by proposing a constructive QNN architecture inspired by linear combination of unitary (LCU), providing both universality guarantees and error bounds for approximating functions in Sobolev spaces under $L_2$ norm.
+% A fundamental question arises: can quantum computers be integrated into the domain of machine learning to provide quantum advantage? This inquiry has catalyzed the emergence of Quantum Machine Learning (QML), a prominent field dedicated to investigating the theoretical and experimental performance of quantum computers in learning tasks \cite{}.
+% A primary research trajectory within QML is Quantum Neural Networks (QNNs) \cite{}. As the quantum analogues of classical neural networks, QNNs are typically implemented as Parameterized Quantum Circuits (PQCs) that process input data to yield computational outputs. While QNNs have demonstrated empirical success in diverse areas—including image recognition \cite{}, data generation \cite{}, and quantum chemistry \cite{}—the majority of these advancements remain rooted in experimental performance \cite{}, lacking rigorous theoretical justification. Therefore, how to understand the expressivity of QNNs and design specific model accordingly is a significant problem to be solved.  
+
+
+\subsection{Related research}
+% In the classical regime, the most known result is that feedforward neural networks with one hidden layer can approximate any continuous functions to arbitrary accuracy, having the Universal Approximation Property (UAP) \cite{cybenko1989,hornik1989}. Furthermore, error bounds and convergence rates of neural networks for various function spaces have been extensively studied, such as continuous functions \cite{shen2019_1,shen2019_2,shen2022,yarotsky2018}, Sobolev functions \cite{yarotsky2017,yarotsky2020,lu2021,yang2025} and Besov functions \cite{siegel2023,suzuki2018,yang2025}.
+
+\textbf{Classical Models}. In the classical regime, the expressive power of neural networks is well-established. The seminal works by Cybenko \cite{cybenko1989} and Hornik \cite{hornik1989} proved that feed-forward networks with a single hidden layer possess Universal Approximation Property (UAP) for continuous functions. Beyond mere existence, recent research has focused on quantitative analysis, establishing rigorous error bounds and convergence rates for various function spaces. Notably, the approximation capabilities of FNNs have been characterized for continuous functions \cite{shen2019_1,shen2019_2,shen2022,yarotsky2018}, Sobolev functions \cite{yarotsky2017,yarotsky2020,lu2021,yang2025} and Besov functions \cite{siegel2023,suzuki2018,yang2025} in terms of circuit width, circuit depth and parameter complexity.
+
+
+% In the quantum regime, several recent studies have begun to address these foundational questions. 
+% For hybrid model, quantum-classical hybrid networks are proved to have UAP \cite{goto2020,hou2023}, another work shows even one qubit is sufficient to approximate any bounded function \cite{adrian2021}. However, the expressivity of hybrid model comes mostly from classical parts and the QNN only serves as the activation function.
+\textbf{Quantum-Classical Hybrid Models}. In the quantum domain, several recent studies have begun to address these foundational questions. The UAP for quantum-classical hybrid networks is demonstrated \cite{goto2020,hou2023}, while another work shows even one qubit is sufficient to approximate any bounded function \cite{adrian2021}. However, these architectures face limitations: the expressivity of hybrid model comes mostly from classical processes and the QNN only serves as the activation function.
+
+\textbf{Quantum Models}. Efforts have been made to investigate power of quantum models without any classical trainable process. Schuld et al. \yrcite{schuld2021} proposed a multi-qubit model, implementing truncated Fourier series to obtain UAP. The qubit cost was optimized in later work \cite{perez2024}. But it relies on arbitrary global gates and parameterized observable, the latter of which requires complicated classical post-process. Thus the model is non-constructive, impractical and essentially hybrid. For univariate functions, a notable progress is that single-qubit model is sufficient for UAP \cite{yu2022}, but it does not fully utilize the entanglement power of quantum computing and encounters difficulties in approximating multivariate functions. The first constructive quantum model that has UAP for multivariate functions was proposed by Yu et al. \yrcite{yu2024}. They also provided non-asymptotic error bounds for Lipschitz functions and H$\ddot{o}$lder functions under $L_\infty$ norm. However, the $L_\infty$ accuracy is often too stringent in practical learning tasks dominated by average-case performance, and the power of QNN approximating more function spaces remains unknown. This is the theoretical gap our work aims to fill.
+
+
+
+\subsection{Our results}
+
+\begin{figure*}[htbp]
+    \centering
+    \hspace*{-0.2cm} 
+    \begin{tikzpicture}
+    \begin{yquant*}[every nobit output/.style={},
+      register/separation=3mm
+    ]
+    qubit {$\ket{0}$} x;
+    
+    qubit {} x[+1]; discard x[1];
+    qubit {$\ket{0}$} x[+1];
+    qubit {$\ket{0}$} x[+1];
+    qubit {} x[+1]; discard x[4];
+    qubit {$\ket{0}$} x[+1];
+    
+    hspace {2mm} x;
+    [fill={blue!40}]
+    [name=p1] box {$P(\boldsymbol{\theta})$} (x[0-2]);
+    hspace {2mm} x;
+    barrier (x);
+    hspace {2mm} x;
+    [fill={green!40}]
+    [name=v1] box {$V_1(\boldsymbol{x})$} (x);
+    hspace {2mm} x;
+    [fill={red!40}]
+    [name=s1] box {$S(\phi_1)$} (x[0-2]);
+    hspace {2mm} x;
+    [fill={green!40}]
+    [name=v2] box {$V_2(\boldsymbol{x})$} (x);
+    hspace {2mm} x;
+    [fill={red!40}]
+    [name=s2] box {$S(\phi_2)$} (x[0-2]);
+    hspace {2mm} x;
+         
+    [draw=none]               
+    box {$\cdots$} (x[0-5]); 
+    hspace {2mm} x;          
+    
+    [fill={green!40}]
+    [name=v3] box {$V_n(\boldsymbol{x})$} (x);
+    hspace {2mm} x;
+    [fill={red!40}]
+    [name=s3] box {$S(\phi_n)$} (x[0-2]);
+    hspace {2mm} x;
+
+    [name=anc] not x[3] | x[0,2];
+    barrier (x);
+    hspace {2mm} x;
+    [fill={blue!40}]
+    [name=p2] box {$P(\boldsymbol{\theta})^\dagger$} (x[0-2]);
+    hspace {2mm} x;
+
+
+    [fill=yellow!50, name=m1]
+    measure x[0]; discard x[0];
+    % output {$\rvdots$} x[1];
+    [fill=yellow!50, name=m2]
+    measure x[2]; discard x[2];
+    [fill=yellow!50, name=m3]
+    measure x[3]; discard x[3];
+    [fill=yellow!50, name=m4]
+    measure x[5]; discard x[5];
+    
+  \end{yquant*}
+  
+  \node[fill=white, inner sep=1pt] at ($(p1.west)+(-0.65,0.12)$) {$\vdots$};
+  \node[fill=white, inner sep=1pt] at ($(p1.west)+(-0.65,-2.1)$) {$\vdots$};
+  \node[fill=white, inner sep=1pt, text height = 2.5ex] at ($(anc |- p1)+(0,0.05)$) {$\vdots$};
+  
+  \path(m1.south)--(m2.north) node[midway] {$\rvdots$};
+  \path(m3.south)--(m4.north) node[midway] {$\rvdots$};
+
+  \newcommand{\spl}[1]{
+    \begin{minipage}[c]{0.5cm}\centering
+      \begin{tikzpicture}[every path/.style={line width=0.2mm}]
+        \draw [violet!90] (-0.1,0)--(0.1,0);
+        \draw [violet!90] (0,0)--(0,#1);
+        \draw [violet!90] (-0.1,#1)--(0.1,#1);
+      \end{tikzpicture}
+    \end{minipage}
+  }
+  \newcommand{\fre}[2]{
+    \begin{minipage}[c]{1.5cm}\centering
+      \begin{tikzpicture}
+        \draw[green!40, thick, domain=0:2, samples=100] 
+    plot (\x/1.57, {#1*sin(10*#2*\x r)}) ;
+    \end{tikzpicture}
+    \end{minipage}
+  }
+  
+  \node[fill=gray!40,anchor=south,inner sep=4pt] (c1) at ($(v1.north)+(-1.2,2)$) {
+    \begin{tblr}{
+        colspec={Q[c,m] Q[c,m] Q[c,m]},
+        colsep=0pt, 
+      }
+      $c_1$&\spl{1}&\fre{0.5}{1}  
+    \end{tblr}
+  };
+  \node[fill=gray!40,anchor=south,inner sep=4pt] (c2) at ($(v2.north)+(0,2)$) {
+    \begin{tblr}{
+        colspec={Q[c,m] Q[c,m] Q[c,m]},
+        colsep=0pt, 
+      }
+      $c_2$&\spl{0.7}&\fre{0.35}{1.8}  
+    \end{tblr}
+  };
+  \node at ($(v2.north)+(2.5,2.2)$) {$\ldots$};  
+  \node[fill=gray!40,anchor=south,inner sep=4pt] (c3) at ($(v3.north)+(1,2)$) {
+    \begin{tblr}{
+        colspec={Q[c,m] Q[c,m] Q[c,m]},
+        colsep=0pt, 
+      }
+      $c_n$&\spl{1.2}&\fre{0.6}{0.65}  
+    \end{tblr}
+  };
+
+
+  \draw [green!60] (c1.south)+(0.5,0) to [out=-100, in=135] (v1.north);
+  \draw [green!60] (c2.south)+(0.5,0) to [out=-60, in=135] (v2.north);
+  \draw [green!60] (c3.south)+(0.5,0) to [out=210, in=60] (v3.north);
+  
+  \draw [blue!60] (c1.south)+(-0.6,0) to [out=-100, in=135] (p1.north);
+  \draw [blue!60] (c2.south)+(-0.6,0) to [out=-100, in=90] (p1.north);
+  \draw [blue!60] (c3.south)+(-0.6,0) to [out=-100, in=45] (p1.north);
+
+  \draw [red!60] (c1.south)+(-0.6,0) to [out=-80, in=135] (s1.north);
+  \draw [red!60] (c2.south)+(-0.6,0) to [out=-60, in=90] (s2.north);
+  \draw [red!60] (c3.south)+(-0.6,0) to [out=-40, in=120] (s3.north);
+  
+  
+  \node[] (note1) at ($(anc.north)+(1.4,5)$) {Padding layer};
+  \draw[-latex] (note1.south)-- ($(anc.north)+(0,2.2)$);
+  
+  \draw [
+    thick,
+    decoration={
+        brace,
+        mirror,
+        raise=0.1cm
+    },
+    decorate
+  ] ($(v1.south west)+(0,-0.1)$) -- ($(v1.south west)+(2.5,-0.1)$);
+  \node at ($(v1.south west)+(1.25,-0.5)$) {Layer 1};
+  \draw [
+    thick,
+    decoration={
+        brace,
+        mirror,
+        raise=0.1cm
+    },
+    decorate
+  ] ($(v2.south west)+(0,-0.1)$) -- ($(v2.south west)+(2.5,-0.1)$);
+  \node at ($(v2.south west)+(1.25,-0.5)$) {Layer 2};
+  \draw [
+    thick,
+    decoration={
+        brace,
+        mirror,
+        raise=0.1cm
+    },
+    decorate
+  ] ($(v3.south west)+(0,-0.1)$) -- ($(v3.south west)+(2.5,-0.1)$);
+  \node at ($(v3.south west)+(1.25,-0.5)$) {Layer $n$};
+  
+  \draw [
+    thick,
+    decoration={
+        brace,
+        mirror,
+        raise=0.1cm
+    },
+    decorate,
+    rotate = 270
+  ] ($(p1.north west)+(-0.1,-0.8)$) -- ($(p1.south west)+(0.1,-0.8)$);
+  \node at ($(p1.west)+(-1.4,0)$) {$m$};
+  \draw [
+    thick,
+    decoration={
+        brace,
+        mirror,
+        raise=0.1cm
+    },
+    decorate,
+    rotate = 270
+  ] ($(p1.north west)+(2.1,-0.8)$) -- ($(p1.south west)+(2.3,-0.8)$);
+  \node at ($(p1.west)+(-1.4,-2.2)$) {$d$};
+
+  
+\end{tikzpicture}
+    \caption{The construction of SAQNN. The state preparation block, spectrum selection block and phase injection are marked blue, green and red respectively. When approximating functions of $d$ variables using $n$ terms of truncated Fourier series, the whole circuit consists of $m+d$ qubits, with state preparation block $P(\boldsymbol{\theta})$, $n$ layers of spectrum selection block accompanied by phase injection, a padding layer and an inversion of $P(\boldsymbol{\theta})$ applied before final measurement. Here $m=\lceil\log n\rceil$ and $c_1,c_2,\cdots,c_n$ denotes coefficients of Fourier series with $n$ terms.}
+    \label{fig1}
+\end{figure*}
+
+
+% In this paper, we propose a constructive QNN model, named as Spectral Adaptive Quantum Neural Network (SAQNN). We prove the UAP for arbitrary square-integrable functions and give error bounds of it approximating Sobolev functions under $L_2$ norm, concerning circuit width (number of qubits), circuit depth and parameter complexity. Note that the circuit width and circuit depth we mentioned here correspond to the network width and network depth of classical neural networks, serving as indicators of cost of QNNs. Numerical experiments are conducted to verify the ability of our model. We now state the main theorems.
+In this paper, we propose a constructive QNN model named \textbf{Spectral Adaptive Quantum Neural Network (SAQNN)}, of which the architecture is shown in Figure \ref{fig1}. We rigorously prove its UAP for arbitrary square-integrable functions and establish error bounds for $L_2$-approximation of Sobolev functions. Our analysis characterizes the asymptotic resource costs in terms of circuit width (number of qubits), circuit depth, and parameter complexity—metrics analogous to the network width and depth of classical neural networks. Finally, numerical experiments are conducted to verify the feasibility of our model. We now state the main theorems.
+
+Denote the quantum circuit of SAQNN as $U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})$, in which $\boldsymbol{\theta}$, $\boldsymbol{\phi}$ are vectors of trainable parameters in state preparation and phase injection, and $\boldsymbol{x}=(x_1,\cdots,x_{d})$ is $d$-dimensional inputs encoded in rotation gates. 
+
+\begin{restatable}{theorem}{thmone}\label{thm1}
+    For any multivariate square-integrable function $f: [-\pi,\pi]^d\rightarrow [0,1]$ and any accuracy $\epsilon$, there exists $\boldsymbol{\theta}$, $\boldsymbol{\phi}$ and rescale coefficient $a$ s.t. 
+    \begin{equation*}
+        \Vert a\bra{0}U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})^\dagger O U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})\ket{0}^{1/2} 
+        -
+        f(\boldsymbol{x})
+        \Vert_{2}
+        \leq
+        \epsilon,
+    \end{equation*}
+    where the global observable $O=\ket{0}\bra{0}$.
+\end{restatable}
+
+In order to quantify the approximation cost of our QNN, we target Sobolev function spaces, a fundamental function class the field of classical neural network approximation concerns a lot \cite{yarotsky2017,lu2021}. Sobolev spaces are inclusive, naturally embedding broad function classes such as continuous functions \cite{adams2003}. Furthermore, since solutions to many physical systems inherently reside in Sobolev spaces \cite{evans2022}, establishing theoretical guarantees here suggests strong potential for quantum learning in physical tasks. Crucially, the Fourier series, which constitutes the optimal approximation basis for Sobolev functions \cite{pinkus2012}, can be naturally implemented on quantum circuits. 
+
+\begin{restatable}{theorem}{thmtwo}\label{thm2}
+    For any multivariate Sobolev function $f\in H_u^s([-\pi,\pi]^d)$ with value range $[0,1]$ and any $\epsilon >0$, there exists $\boldsymbol{\theta}$, $\boldsymbol{\phi}$ and rescale coefficient $a$ s.t. 
+    \begin{equation*}
+        \Vert a\bra{0}U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})^\dagger O U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})\ket{0}^{1/2} 
+        -
+        f(\boldsymbol{x})
+        \Vert_{2}
+        \leq
+        \epsilon,
+    \end{equation*}
+    where the global observable $O=\ket{0}\bra{0}$. 
+    The circuit width (number of qubits) of $U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})$ is 
+    $O(\log n)$, 
+    the circuit depth is
+    $O(n\log n)$ 
+    and the parameter complexity is 
+    $O(n)$. Here $n=O((d+1/\epsilon)^{16(1/\epsilon)^{2/s}})$.
+\end{restatable}
+
+A more compressive encoding strategy is adopted in analysis of Theorem \ref{thm2}, optimizing number of qubits from $O(\log n+d)$ to $O(\log n)$, see Appendix \ref{apd4}. Note that we are the first to analyze the error bounds of QNNs approximating Sobolev functions under $L_2$ norm in terms of circuit width, circuit depth and parameter complexity.
+
+Besides UAP, our model has more advantages:
+\begin{itemize}
+    \item It is a constructive model, which means the construction (or synthesis) of circuit is explicit with basic gates, distinguished from the model with non-constructive global blocks proposed by Schuld \yrcite{schuld2021}.
+    \item It supports basis shift between Fourier series and Chebyshev series, thus adaptive to various scenarios in numerical approximation and machine learning. 
+    \item On $L_2$-approximating of Sobolev functions, it has quantum advantages over state-of-the-art (SOTA) of classical neural networks in $d$-demanding case. 
+    \item On $L_2$-approximation of Sobolev functions, it achieves the optimal parameter complexity with regards to the asymptotic order of accuracy $\epsilon$.
+\end{itemize}
+
+ To clarify our contribution, we not only propose a constructive QNN architecture possessing the universal approximation property but also establish rigorous error bounds for approximating Sobolev functions under $L_2$ norm. Given the current underdeveloped state of quantum machine learning theory, this work advances the theoretical understanding of QNNs' expressivity. Since Fourier and Chebyshev bases are fundamental in approximation theory. Our constructive QNN model provides explicit implementation of these bases on quantum circuits, offering a versatile and interpretable framework for machine learning and function approximation. By enabling efficient approximation with these canonical bases, our model offers high-level guidance for design of QNNs in practical scenarios, paving the way for more reliable and powerful quantum models.
+
+
+\subsection{Organization}
+The rest of the paper is organized as below. Section \ref{sec2}
+is about the preliminaries. In section \ref{sec3}, we introduce our model construction in detail, then provide analysis of error bounds approximating Sobolev functions. The main results are placed here. In section \ref{sec4} we conduct numerical experiments to verify the feasibility of our model, while proposing a practical scaling strategy. We make a summary of this paper in section \ref{sec5}, including achievements and drawbacks, and then raise some open problems for future work.
+
+
+\section{Preliminaries}\label{sec2}
+Given a matrix $U$, we denote its $(i,j)$-th entry as $U_{ij}$, and the conjugate transpose of $U$ as $U^\dagger$. We use $\otimes$ to denote the Kronecker tensor product over two matrices.
+
+\subsection{Basic knowledge of Quantum computing}
+\textbf{Quantum state.} The basic computing unit in quantum computation is qubit. It is a unit vector in Hilbert space $\mathcal{H}\cong \mathbb{C}^2$ and its state can be denoted by $\ket{\psi}=\alpha\ket{0}+\beta\ket{1}$, which satisfies the normalization condition $|\alpha|^2+|\beta|^2 = 1$. A quantum state of $n$ qubits is a vector in $n$-product Hilbert spaces $\mathcal{H}^{n}\cong \mathbb{C}^{2^n}$. Unlike that in classical computing, the state can be in exponential basic states simultaneously and the coefficients can be understood as probability amplitude. We denote $\bra{\psi}$ as the conjugate transpose of $\ket{\psi}$ and inner product of two states $\ket{\varphi}$ and $\ket{\psi}$ is $\bra{\varphi}\psi\rangle$. These are well-known \textit{Dirac notation}.
+
+\textbf{Quantum gate.} Quantum gate is the computation (or evolution) operated on quantum qubits. It's a unitary matrix $U\in U(2^n)$. The most used gates include 2-qubit gate $CNOT=I_2\oplus X$, single-qubit rotation gates $R_x(\theta) = e^{-\theta X/2}$, $R_y(\theta) = e^{-\theta Y/2}$, $R_z(\theta) = e^{-\theta Z/2}$. The $X,Y,Z$ are Pauli operators defined as
+\begin{equation*}
+    X 
+    \equiv
+    \begin{pmatrix}
+        0 & 1 \\
+        1 & 0
+    \end{pmatrix},
+    Y
+    \equiv
+    \begin{pmatrix}
+        0 & -i \\
+        i & 0
+    \end{pmatrix},
+    Z
+    \equiv
+    \begin{pmatrix}
+        1 & 0 \\
+        0 & -1
+    \end{pmatrix}.
+\end{equation*}
+ 
+
+\textbf{Measurement.} A measurement is a quantum process extracting classical information from qubits. The result of measurement on $\ket{\psi}$ with observable $O$ is $\bra{\psi}O\ket{\psi}$, where $O$ satisfies Hermitian condition $O=O^\dagger$. Since quantum measurement is probabilistic, the result is an expectation value.
+
+% Unless specifically labeled, the state $\ket{0}$ in our equations are global.
+
+\subsection{Quantum multiplexor}
+A quantum multiplexor \cite{Shende2006} with $s$ controlled qubits (positioned at the highest levels) and $d$ target qubits is a block-diagonal unitary matrix comprising $2^s$ unitary matrices $U_i\in U(2^d)$, $1\leq i \leq2^s$:
+    \begin{equation*}
+    U = 
+    \begin{pmatrix}
+        U_1&& \\
+        &\ddots&\\
+        &&U_{2^s}
+    \end{pmatrix}.
+\end{equation*}
+Here is a typical example: the multiplexor-$R_y$, which is a multiplexor with 1 data qubit acted by $R_y$ gate with different angles depending on the state of controlled qubits. In the circuit diagram, we mark each controlled qubit of $U$ in quantum circuits with a ``$\boxed{}$'' symbol.
+\begin{center}
+    \scalebox{1.5}{
+    \begin{tikzpicture}
+    \begin{yquantgroup}
+    \registers{
+    qubit {} q[2];
+    
+    }
+    \circuit{
+    slash q[0];
+    hspace {2mm} q[0];
+    [this control/.append style={shape=yquant-rectangle,draw, /yquant/default fill}]
+    box {$R_y$} q[1]| q[0];
+    hspace {2mm} q[0];
+    }
+
+    \end{yquantgroup}
+    \end{tikzpicture}
+    }
+\end{center}
+
+\begin{lemma}[Decomposition of multiplexor rotation gates \cite{bullock2003,Mottonen2004,Shende2006}]For multiplexor-$R_k$ and $k=y,z$, it holds that
+
+    \begin{center}
+    \scalebox{1.5}{
+    \begin{tikzpicture}
+    \begin{yquantgroup}
+    \registers{
+    qubit {} q[3];
+    
+    }
+    \circuit{
+    slash q[1];
+    hspace {2mm} q[1];
+    [this control/.append style={shape=yquant-rectangle,draw, /yquant/default fill}]
+    box {$R_k$} q[2]| q[0],q[1];
+    hspace {2mm} q[1];
+    }
+    \equals
+    \circuit{
+    slash q[1];
+    hspace {2mm} q[1];
+    [this control/.append style={shape=yquant-rectangle,draw, /yquant/default fill}]
+    box {$R_k$} q[2]|q[1];
+    cnot q[2] | q[0];
+    [this control/.append style={shape=yquant-rectangle,draw, /yquant/default fill}]
+    box {$R_k$} q[2]|q[1];
+    cnot q[2] | q[0];
+    hspace {2mm} q[1];
+    }
+    \end{yquantgroup}
+    \end{tikzpicture}
+    }
+    \end{center}
+    and any $n$-qubit multiplexor-$R_k$ can be synthesized by at most $2^{n-1}$ CNOT gates. 
+    \label{lemma1}
+\end{lemma}
+
+One should distinguish between multiplexor gates with controlled-$U$ gates. The latter is to apply $U$ under a specific state of control qubits, but do nothing otherwise.
+
+\subsection{Data re-uploading Quantum neural networks}
+In quantum neural networks, how the inputs come and be encoded will fundamentally affect it's expressivity. The commonly used encoding strategy is \textit{data re-uploading} \cite{perez2020,schuld2021,wach2023}, which encodes the inputs into angles of rotation gates. An example of 2-qubit QNN model is shown below.
+
+\begin{center}
+    \scalebox{1.2}{
+    \begin{tikzpicture}
+    \begin{yquantgroup}
+    \registers{
+    qubit {} q[2];
+    
+    }
+    \circuit{
+    hspace {2mm} q[0-1];
+    box {$R_y(x_1)$} q[0];
+    box {$R_z(-x_2)$} q[1];
+    cnot q[1] | q[0];
+    box {$R_z(2x_1)$} q[0];
+    box {$R_z(x_2)$} q[1];
+    cnot q[1] | q[0];
+    box {$R_z(\theta_1)$} q[0];
+    box {$R_x(\theta_2)$} q[1];
+    hspace {2mm} q[0-1];
+    }
+    \end{yquantgroup}
+    \end{tikzpicture}
+    }
+    \end{center}
+In the circuit we can upload the inputs $x_1,x_2$ repeatedly, and train the parameters $\theta_1, \theta_2$. Note that simple classical pre-process is allowed since it's not parameterized, distinguished from hybrid networks. 
+
+\section{Model construction and analysis}\label{sec3}
+A useful mathematical tool in approximation theory is \textit{Fourier series}. In many natural settings, a Fourier series of a univariate function $f(x)$ is the linear combination of periodic function bases with integer frequencies:
+$$
+f(x)= \sum_{j=-\infty}^{\infty} c_j e^{ijx}.
+$$
+
+More generally, the Fourier series for multivariate functions $f(\boldsymbol{x})$ works in a similar way,
+$$
+f(\boldsymbol{x}) = \sum_{j_1,\dotsc,j_d=-\infty}^{\infty} c_{\boldsymbol{j}} e^{i\boldsymbol{j x}},
+$$
+where the frequency $\boldsymbol{j}=(j_1,j_2,\cdots,j_d)$ and the inputs $\boldsymbol{x}=(x_1,x_2,\cdots,x_d)$ are $d$-dimension vectors.
+
+A \textit{truncated Fourier series} keep finite items in Fourier series, usually the function bases with degree $\Vert \boldsymbol{j}\Vert_\infty \leq k$, and noted as
+$$
+f_k(\boldsymbol{x}) = \sum_{j_1,\dotsc,j_d=-k}^{k} c_{\boldsymbol{j}} e^{i\boldsymbol{j x}}.
+$$
+It's an important result in approximation theory that any square-integrable functions can be approximated by a truncated Fourier series to arbitrary accuracy.
+\begin{lemma}[Fourier approximation \cite{stein1971,rivlin1981,weisz2012}]
+\label{lemma:approx}
+    For any $f\in L_2([-\pi,\pi]^d)$ and $\epsilon>0$, there exists a $k$-truncated Fourier series $f_k$ s.t.
+    $$
+    \Vert f(\boldsymbol{x})-f_k(\boldsymbol{x})\Vert_2 \leq \epsilon.
+    $$
+\end{lemma}
+We now move to the details of our model. We investigate how our model implements a truncated Fourier series, and how the different components of SAQNN circuit control the expressivity.
+
+\subsection{Structure of SAQNN}
+The Spectral Adaptive Quantum Neural Network is composed of three main parts: state preparation, spectrum selection and phase injection. These components are marked in colors in Figure \ref{fig1}. The design of our model is inspired from linear combination of unitaries (LCU) \cite{childs2012,gilyen2019}, which is widely used in Hamiltonian simulation \cite{berry2015,chakraborty2024}.
+
+
+\subsubsection{State preparation}
+In typical LCU settings, the state preparation step is to prepare arbitrary states on $\ket{0}$. But here we adopt the circuit with multiplexor-$R_y$ gates to implement states with arbitrary real amplitudes.  
+
+The circuit of state preparation is shown below. Note that for the sake of simplicity, we have omitted the specific forms of the parameters, but we always provide a detailed explanation of how the parameters are encoded into the quantum gates.
+ \begin{center}
+    \scalebox{1.2}{
+    \begin{tikzpicture}
+    \begin{yquantgroup}
+    \registers{
+    qubit {} q[5];
+    }
+    \circuit{
+    discard q[0];discard q[1];discard q[3];discard q[4];
+    slash q[2];
+    hspace {2mm} q[2];
+    box {$P(\boldsymbol{\theta})$} q[2];
+    
+    hspace {2mm} q[2];
+    }
+    \equals
+    \circuit{
+    discard q[3];
+    hspace {2mm} q;
+    box {$R_y$} q[0];
+    [this control/.append style={shape=yquant-rectangle,draw, /yquant/default fill}]
+    box {$R_y$} q[1]|q[0];
+    [this control/.append style={shape=yquant-rectangle,draw, /yquant/default fill}]
+    box {$R_y$} q[2]|q[0-1];
+    [draw=none] 
+    box {\phantom{$R_y$}} q[3];
+    [draw=none]               
+    box {$\ddots$} (q[0-4]);
+    % text {$\vdots$} a;
+    hspace {5mm} q;
+    [this control/.append style={shape=yquant-rectangle,draw, /yquant/default fill}]
+    [name=r1]
+    box {$R_y$} q[4]|q[0-2];
+    hspace {2mm} q[1];
+    }
+    \end{yquantgroup}
+    \node[fill=white, inner sep=1pt, text height = 2.5ex, scale =1] at (6.265,-2) {$\vdots$};
+    \node [scale = 0.75] at (0.1,-1.3) {$m$};
+    \end{tikzpicture}
+    }
+    \end{center} 
+It is composed of multiplexor-$R_y$ gates on the first $i$ qubits for $1\leq i\leq m$. The $i$-th gate contains $2^{i-1}$ parameters, serving as the rotation angles in $2^{i-1}$ cases of control qubits. Denote the $i$-th multiplexor-$R_y$ as $MR_y^{(i)}$, then
+\begin{equation*}
+    MR_y^{(i)} = 
+    \begin{pmatrix}
+        R_y(\theta_{2^{i-1}})&& \\
+        &\ddots&\\
+        &&R_y(\theta_{2^{i}-1})
+    \end{pmatrix}.
+\end{equation*}
+
+This block is key to the parameter optimality of our model, it generates arbitrary states with real amplitudes and with phase injection contributes to generation of coefficients in Fourier series. Appendix \ref{apd1} and \ref{apd4} shows how that works.
+
+
+\subsubsection{Spectrum Selection}
+In spectrum selection we encode inputs into single-qubit rotation gates to implement the items of truncated Fourier series. To be specific, each $V_r(\boldsymbol{x})$ gate is in the form of a controlled-$U_r$ gates. 
+ \begin{center}
+    \scalebox{1.2}{
+    \begin{tikzpicture}
+    \begin{yquantgroup}
+    \registers{
+    qubit {} q[2];
+    }
+    \circuit{
+    slash q[0]; slash q[1];
+    hspace {2mm} q[1];
+    box {$V_r(\boldsymbol{x})$} (q[0],q[1]);
+    hspace {2mm} q[1];
+    }
+    \equals
+    \circuit{
+    slash q[0];slash q[1];
+    hspace {2mm} q;
+    box {$U_r(\boldsymbol{x})$} q[1]|q[0];
+    hspace {2mm} q;
+    }
+    \end{yquantgroup}
+    \node at (3.2,0.2) {$\ket{r}$};
+    \node [scale = 0.75] at (0.1,0.05) {$m$};
+    \node [scale = 0.75] at (0.1,-0.45) {$d$};
+    \node [scale = 0.75] at (2.4,0.05) {$m$};
+    \node [scale = 0.75] at (2.4,-0.45) {$d$};
+    \end{tikzpicture}
+    }
+    \end{center}
+$V_r(\boldsymbol{x})$ applies a $U_r(\boldsymbol{x})$ to the bottom $d$ qubits under the condition of top $m$ qubits being $\ket{r}$.
+
+For construction of $U_r$, we use the tensor product of $R_z$ gates, encoding the inputs and implement each basis of multivariate Fourier series.
+ \begin{center}
+    \scalebox{1.2}{
+    \begin{tikzpicture}
+    \begin{yquantgroup}
+    \registers{
+    qubit {} q[3];
+    
+    }
+    \circuit{
+    slash q[1];discard q[0];discard q[2];
+    hspace {2mm} q[1];
+    
+    box {$U_r(\boldsymbol{x})$} q[1];
+    hspace {2mm} q[1];
+    }
+    \equals
+    \circuit{
+    discard q[1];
+    hspace {2mm} q;
+    box {$R_z$} q[0];
+    [draw=none]
+    box {$\vdots$} q[1];
+    box {$R_z$} q[2];
+    hspace {2mm} q;
+    }
+    \end{yquantgroup}
+    \node [scale = 0.75] at (0.1,-0.65) {$d$};
+    \end{tikzpicture}
+    }
+    \end{center}
+In matrix representation, 
+\begin{equation*}
+    U_r(\boldsymbol{x}) = R_z(-2j_1^{(r)}x_1)\otimes R_z(-2j_2^{(r)}x_2)\otimes R_z(-2j_d^{(r)}x_d),
+\end{equation*}
+with the equation holds that
+\begin{equation*}
+    \bra{0}^{\otimes d}U_r\ket{0}^{\otimes d} = e^{i\boldsymbol{j}^{(r)}\boldsymbol{x}},
+\end{equation*}
+$\boldsymbol{j}^{(r)}=(j_1^{(r)},j_2^{(r)},\cdots,j_d^{(r)})$ is the $r$-th frequency in Fourier series, satisfying $1\leq r\leq n$.
+    
+Also, the controlled-$U_r$ can be equally represented by a sequence of ``stair'' controlled-$R_z$ gates.
+ \begin{center}
+    \scalebox{1.2}{
+    \begin{tikzpicture}
+    \begin{yquantgroup}
+    \registers{
+    qubit {} q[3];
+    
+    }
+    \circuit{
+    slash q[0];slash q[1];discard q[2];
+    hspace {2mm} q[1];
+    box {$U_r(\boldsymbol{x})$} q[1]| q[0];
+    hspace {2mm} q[1];
+    }
+    \equals
+    \circuit{
+    slash q[0];
+    hspace {2mm} q[1];
+    box {$R_z$} q[1]|q[0];
+    [draw=none]
+    box {$\cdots$} (q[0]);
+    [draw=none]
+    box {$\ddots$} (q[1-2]);
+    box {$R_z$} q[2]|q[0];
+    hspace {2mm} q[1];
+    }
+    \end{yquantgroup}
+    \node at (0.85,0.2) {$\ket{r}$};
+    \node at (3,0.2) {$\ket{r}$};
+    \node at (4.5,0.2) {$\ket{r}$};
+    \node [scale = 0.75] at (0.1,0.05) {$m$};
+    \node [scale = 0.75] at (0.1,-0.5) {$d$};
+    \node [scale = 0.75] at (2.5,0.05) {$m$};
+    \end{tikzpicture}
+    }
+    \end{center}
+
+The controlled-$R_z$ gates can be synthesized by two multi-qubit Toffoli gates and two $R_z$ gates, contributing to the analysis of circuit depth in Theorem \ref{thm2}.
+
+
+\subsubsection{Phase injection}
+To equip our model with the expressivity for complex numbers, we introduce phase injection technique into spectrum selection part. For each controlled layer inside, we apply a controlled phase gate to provide global phase for $U_r$, which is parameterized for training. That is,
+ \begin{center}
+    \scalebox{1.2}{
+    \begin{tikzpicture}
+    \begin{yquantgroup}
+    \registers{
+    qubit {} q[3];
+    
+    }
+    \circuit{
+    slash q[1];discard q[0];discard q[2];
+    hspace {2mm} q[1];
+    box {$S(\phi_r)$} q[1];
+    hspace {2mm} q[1];
+    }
+    \equals
+    \circuit{
+    discard q[1];
+    hspace {2mm} q[1];
+    phase {} q[0]|q[2]; 
+    hspace {2mm} q[1];
+    }
+    \end{yquantgroup}
+    \node[fill=white, inner sep=1pt, text height = 2.5ex, scale =1] at (2.92,-0.7) {$\vdots$};
+    \node at (2.92,0.2) {$\ket{r}$};
+    \node at (3.2,-1) {$\phi_r$};
+    \node [scale = 0.75] at (0.1,-0.5) {$m$};
+    \end{tikzpicture}
+    }
+\end{center}
+The representation is 
+\begin{equation*}
+    S(\phi_r) = e^{i\phi_r}\ket{r}\bra{r}+\sum_{j\neq r}\ket{j}\bra{j}.
+\end{equation*}
+
+As shown in Figure \ref{fig1}, our model starts on $\ket{0}$, chronologically applying a state preparation block, $n$ layers of spectrum selection block with phase injection, a multi-qubit Toffoli gate as padding layer and the inversion of state preparation block. The result is measured with a global observable $O=\ket{0}\bra{0}$. Here the state preparation block and phase injection are parameterized to for training and the inputs are encoded into spectrum selection block. We will see such a model can work as a universal approximator.
+
+\subsection{Universal approximation properties}
+To meticulously describe the UAP of our model, we restate Theorem \ref{thm1}, which indicates SAQNN can approximate any multivariant square-integrable functions under arbitrary accuracy.
+\thmone*
+The proof of Theorem \ref{thm1} is placed in Appendix \ref{apd1}. Remark that $O(1/\epsilon^2)$ times of measurement is needed to estimate the expectation value up to an additive accuracy $\epsilon$. But we can further use the amplitude estimation \cite{Brassard} to reduce the repetitive times to $O(1/\epsilon)$ with increasing circuit depth by $O(1/\epsilon)$. The classical square-root post-process on the expectation output is taken in our theorems, which extracts the amplitudes of final $\ket{0}$ state. The operation is physically reasonable since it does essentially the same thing as amplitude estimation.  
+
+The rescale coefficient $a$ in Theorem \ref{thm1} is not a parameter to be classically trained, distinguishing SAQNN from hybrid model. It can be bounded and a fine-tuning strategy for numerical feasibility is introduced in Appendix \ref{apd2}. In Appendix \ref{apd2}, one can even see it's theoretical reliable to fix $a$ to a specific value all the way, which doesn't affect the correctness of Theorem \ref{thm1}. 
+
+Although Fourier series have outstanding performance in approximation of periodic functions, it's easy to encounter problems in non-periodic cases (which is called \textit{Gibbs phenomenon} \cite{gottlieb1997} in approximation theory). However, our model has good extensibility. The function basis implemented can be shifted to Chebyshev series naturally in SAQNN to adapt to various scenarios in numerical approximation and machine learning. Details are presented in Appendix \ref{apd3}.
+
+In our model, each layer of spectrum selection block controls a Fourier basis with specific frequency. The state preparation block and phase injection generate complex coefficients in Fourier series together, with the former determining modulus and the latter adjusting phases. The relations are also pictured in Figure \ref{fig1}. It can be seen that our model has adjustable capability by changing the layers of spectrum selection, with more rich accessible frequency spectrum contributing to more powerful expressivity. 
+
+\subsection{Error bounds for Sobolev functions}
+Theorem \ref{thm1} establishes the expressivity of SAQNN, but the circuit cost needed is absent. We go further to give an explicit analysis and show how SAQNN has advantages over SOTA of classical neural networks under reasonable settings. In this paper we consider the Sobolev spaces, results in more function spaces remain open problems.
+\begin{definition}[Sobolev function spaces \cite{adams2003,canuto2006}]
+    For $s\in \mathbb{N}$, Sobolev function space $H^s([-\pi,\pi]^d)$ is defined as
+    \begin{align*}
+        H^s([-\pi,\pi]^d):=\{f:D^{\boldsymbol{\alpha}}f \in L^2([-\pi,\pi]^d),\forall\Vert\boldsymbol{\alpha}\Vert_{1}\leq s\},
+    \end{align*}
+    where 
+    \begin{equation*}
+        D^{\boldsymbol{\alpha}}f=\frac{\partial f}{\partial^{\alpha_1} x_1\partial^{\alpha_2} x_2\cdots \partial^{\alpha_d} x_d}.
+    \end{equation*}
+    $H^s([-\pi,\pi]^d)$ is a normed space equipped with Sobolev norm
+    \begin{equation*}
+        \Vert f\Vert_{H^s} = (\sum_{|\boldsymbol{\alpha|}\leq s}\Vert D^{\boldsymbol{\alpha}}f\Vert_2^2)^{1/2}.
+    \end{equation*}
+\end{definition}
+
+
+In usual settings of approximation theory, the Sobolev unit ball $f\in H^s_u([-\pi,\pi]^d)$ where $\Vert f\Vert_{H^s}\leq1$ is considered in analysis of error bounds. Similar to that in classical neural networks, we focus on the resource cost to be circuit width (number of qubits), circuit depth and number of parameters.
+
+\thmtwo*
+
+The proof of Theorem \ref{thm2} is placed in Appendix \ref{apd4}. 
+% to avoid complicated analysis of Sobolev regularity of $\sqrt{f}$ like in proof of Theorem \ref{thm1}
+
+
+To show our advantages, we make a comparison between the SAQNN and the SOTA of classical neural networks. For classical model, we focus on the feed-forward neural networks (FNNs) \cite{Rumelhart1986,Bebis1994,svozil1997} with rectified linear unit (ReLU) activation function \cite{nair2010,glorot2011}, where $\text{ReLU}(x):=\max\{0,x\}$. Such neural networks can fundamentally represent a vast range of classical neural networks. The function spaces $H^s_u([-\pi,\pi]^d)$ are selected to be the benchmark, and the comparison is made from circuit size (defined as product of circuit width and circuit depth) and parameter complexity perspectives. To our best knowledge, the best circuit size and parameter complexity of $L_2$-approximation of Sobolev spaces for FNNs are $O((2\pi)^{3d^2/4s}(1/\epsilon)^{d/2s})$ and $O((2\pi)^{3d^2/2s}(1/\epsilon)^{d/s})$, adapted from \cite{yang2025}. One can also refer to \cite{lu2021} and \cite{Jiao2021} for further understanding. In empirical sense, it's often satisfied in real-world learning tasks that $s$ is a small constant but $d$ can be large (e.g. $d=3072$ for CIFAR-10 \cite{cifar10}, $d=150528$ for ImageNet \cite{imagenet} and $d=2408448$ for Kinetics-400 dataset \cite{Kinetics400}). In the context of these machine learning tasks, the primary computational bottleneck arises from the input dimension $d$ rather than the approximation accuracy $\epsilon$. So we treat the target approximation error $\epsilon$ as a fixed constant (for instance, $\epsilon=0.01$). One can see FNNs suffer from curse of dimensionality of $d$ but the costs of our model are all in $\text{poly}(d)$ by Theorem \ref{thm2}. That yields the quantum advantages of SAQNN over classical neural networks when approximating high-dimensional functions under certain accuracy $\epsilon$ not so small.
+
+To make our comparison comprehensive, we take the opposite scenario into consideration that pursuing accuracy under a fixed $d$. We show in this case our model has optimal parameter complexity among all linear and non-linear approximation methods. Details for the comparison are explained in Appendix \ref{apd5} and we give an overview here. Fixing $d$, the lower bounds of parameters to $L_2$-approximating Sobolev function spaces with linear combination of function bases (known as linear methods \cite{pinkus2012}) and continuous manifold (known as non-linear methods \cite{devore1998}, a typical example of which is classical feed-forward neural networks) are the same with regards to $\epsilon$. Concerning the optimal approximation for Sobolev spaces is Fourier series with lowest frequencies \cite{mallat1999,pinkus2012}, which can be implemented by SAQNN explicitly, our model achieves optimal parameter complexity among all linear and non-linear approximation methods. 
+
+
+\section{Numerical experiments}\label{sec4}
+In this section, we conduct numerical experiments to verify the feasibility of our model. We focus on the case of $d=2$, the target functions are
+$$
+f_1(x_0,x_1) = e^{-(\sin^2 (x_0/2) + \sin^2(x_1/2))},
+$$
+$$
+f_2(x_0,x_1) = \frac{\cos(x_0+x_1+\pi/6)+1}{2.5}
+$$
+for Fourier series, and
+$$
+f_3(x_0,x_1) = \frac{(x_0-x_1+1)^2}{9}
+$$
+for Chebyshev series. We sample 200 points $(x_0,x_1)$ from intervals $[-\pi,\pi]^2$ (in Fourier case) or $[-1,1]^2$ (in Chebyshev case) with their corresponding function values uniformly at random, to form the training and testing dataset, each of which has 100 data points. The loss function to be minimized is Mean Squared Error (MSE) between real function values and our model outputs. Adam optimizer with initial learning rate 0.01 (for $f_1$) or 0.05 (for $f_2,f_3$) and step scheduling strategy are adopted. The maximum training iterations is set to 80. Intuitive approximation results of numerical experiments are shown in Figure \ref{fig:numerical}. The MSE obtained on test datasets for $f_1$, $f_2$, $f_3$ are $7.20\times 10^{-4}$ ($n=49$), $2.62\times 10^{-4}$ ($n=3$) and $4.51\times 10^{-4}$ ($n=6$) respectively. 
+
+\begin{figure}[h]
+    \centering
+    % 第一个子图
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figure/f1.png}
+        \caption{Approximating $f_1(x_0,x_1)$ with Fourier series.}
+        \label{fig:sub1}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+    
+    \begin{subfigure}[b]{0.5\textwidth} 
+        \centering
+        \includegraphics[width=\textwidth]{Figure/f2.png}
+        \caption{Approximating $f_2(x_0,x_1)$ with Fourier series.}
+        \label{fig:sub2}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+    
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figure/c1.png}
+        \caption{Approximating $f_3(x_0,x_1)$ with Chebyshev series.}
+        \label{fig:sub3}
+    \end{subfigure}
+
+    \caption{Numerical results of Fourier and Chebyshev series approximating target functions. The target functions are visualized in the left graphics and the right ones are learned from our model. Both of them are plotted with 50$\times$50 grid samples of pre-defined intervals.}
+    \label{fig:numerical}
+\end{figure}
+
+All of these experiments are conducted with qiskit \cite{qiskit}, a python tool developed by IBM for quantum computing, on Intel(R) Xeon(R) Gold 5222 3.80GHz CPU. Parameter optimization is based on finite difference method, encapsulated in qiskit\_algorithm package.
+
+% Remark that the learning outcomes is sensitive to initialization of parameters and learning strategy during experiments. One can take use of some more engineering-friendly ansatz (the trainable part of QNNs) with better learning landscapes when applying SAQNN to practical tasks. 
+
+
+\section{Summary}\label{sec5}
+In this work, we have introduced the Spectral Adaptive Quantum Neural Network (SAQNN), a constructive quantum machine learning model with powerful expressivity. By leveraging a design inspired by LCU, SAQNN explicitly implements truncated Fourier and Chebyshev series on quantum circuits, offering a transparent and interpretable mechanism for function approximation. We have mathematically established its universal approximation property for multivariate square-integrable functions and demonstrated its spectral adaptability, which allows the model to has adjustable expressivity with layers and switch between function bases to effectively mitigate issues like the Gibbs phenomenon in aperiodic function approximation. A central contribution of our analysis is the derivation of rigorous error bounds for approximating Sobolev functions under $L_2$ norm. We proved that SAQNN achieves an optimal parameter complexity, matching the fundamental $n$-width lower bounds for both linear and nonlinear approximation methods. Moreover, our comparative analysis with SOTA of classical ReLU-FNNs highlights the quantum advantages in high-dimensional settings. While classical models often suffer from the curse of dimensionality regarding input dimension $d$, SAQNN maintains polynomial resource scaling, suggesting strong potential for quantum machine learning in complex, high-dimensional computational tasks. 
+
+Despite these theoretical advancements, several avenues for future research remain to enhance practical viability. 
+%
+While our model realizes quantum advantages, the circuit depth currently scales as $O(n \log n)$, presenting challenges for near-term quantum devices. Thus future works should focus on optimizing circuit synthesis to reduce depth without compromising expressivity. 
+%
+Additionally, analyses of the learning landscapes (such as the existence of barren plateau \cite{mcclean2018,holmes2022}, number of local minima \cite{bittel2021,larocca2023}, sample complexity \cite{Huang2021,cai2022}) of SAQNN are also interesting open problems. 
+%
+Furthermore, the numerical results in this paper only serves as the verification of feasibility of SAQNN, and we encourage the adaptation to various downstream machine learning tasks and examining the performance compared with the classical model, extending its utility beyond theoretical guarantees. 
+
+
+
+% Acknowledgements should only appear in the accepted version.
+\section*{Acknowledgements}
+The authors thank Junhong Nie, Shuai Yang and Yunfei Yang for helpful discussions. 
+
+\section*{Impact Statement}
+This paper presents work whose goal is to advance the field of Machine Learning. There are many potential societal consequences of our work, none of which we feel must be specifically highlighted here.
+
+% In the unusual situation where you want a paper to appear in the
+% references without citing it in the main text, use \nocite
+% \nocite{langley00}
+
+\bibliography{ref}
+\bibliographystyle{icml2026}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\appendix
+\onecolumn
+\section{Proof of Theorem \ref{thm1}}\label{apd1}
+
+\begin{lemma}[\cite{sun2023}]\label{lemma:real}
+    State preparation block of SAQNN can prepare any state with real amplitudes.
+\end{lemma}
+\thmone*
+\begin{proof}
+Firstly, it is known by Lemma \ref{lemma:approx} that any arbitrary multivariant square-integrable function $f(\boldsymbol{x})$ can be $\epsilon$-approximated by a truncated Fourier series. Since $f:[-\pi,\pi]^d\rightarrow [0,1]$ is square-integrable, for any $\epsilon>0$, there exists $k\in \mathbb{N}^+$ and a finite series $f_k$ s.t.
+$$
+\Vert f(\boldsymbol{x})-f_k(\boldsymbol{x})\Vert_2 \leq \epsilon,
+$$
+where
+$$
+f_k = \sum_{j_1,j_2,...,j_d} c_{\boldsymbol{j}}e^{i\boldsymbol{j}\boldsymbol{x}}.
+$$
+Let the sum of the modulus of the coefficients of $f_k$ be $\sum_{j_1,j_2,...,j_m}|c_{\boldsymbol{j}}| = a\geq 0$. Also, we have $n=(2k+1)^d$, thus the number of target qubits of $P(\boldsymbol{\theta})$ is $m=\lceil d\log (2k+1)\rceil$ in SAQNN. 
+
+Next, we prove the inequality in the theorem. For readability we change the index of series to $r$. That is, 
+$$
+f_k = \sum_{r=1}^{n} c_{r}e^{i\boldsymbol{j}^{(r)}\boldsymbol{x}}.
+$$
+Based on section \ref{sec3} and Lemma \ref{lemma:real}, the state preparation block can prepare any arbitrary state with real amplitudes. For any $a_r\in \mathbb{R}$ and $\sum_{r}a_r^2=1$, there exists $\boldsymbol{\theta}$ s.t.
+$$
+P(\boldsymbol{\theta})\ket{0}^m = \sum_{r=0}^{2^m-1} a_r \ket{r}.
+$$
+
+We can pad the remainder of series with 0s and use multi-qubit Toffoli gate before inversion of state preparation. The multi-qubit padding layer is under condition of top $m$ qubits being $\ket{0}$. For conditions of $\ket{r}$ that $r > n$, no controlled gate is inserted into the circuit and we can view them as some controlled-$I_2$ gates in the derivation. To be specific, denote $V_{\boldsymbol{\phi}}(\boldsymbol{x})$ as the matrix with $n$ layers of spectrum selection block with phase injection and padding layer, then
+$$
+V_{\boldsymbol{\phi}}(\boldsymbol{x})\ket{r}\ket{\varphi} = \ket{r}(e^{\phi_r}V_r\ket{\varphi}),
+$$
+for $1\leq r\leq n$,
+$$
+V_{\boldsymbol{\phi}}(\boldsymbol{x})\ket{0}\ket{\varphi} = \ket{0}(X\otimes I_{2^{d-1}}\ket{\varphi}),
+$$
+and 
+$$
+V_{\boldsymbol{\phi}}(\boldsymbol{x})\ket{r}\ket{\varphi} = \ket{r}(I_{2^{d}}\ket{\varphi}),
+$$
+for $n+1\leq r\leq 2^m-1$.
+
+Then
+\begin{align*}
+    \bra{0}U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})\ket{0} 
+    &= \bra{0}P(\boldsymbol{\theta})^\dagger V_{\boldsymbol{\phi}}(\boldsymbol{x}) P(\boldsymbol{\theta})\ket{0} \\
+    &= \bra{0}P(\boldsymbol{\theta})^\dagger V_{\boldsymbol{\phi}}(\boldsymbol{x}) (\sum_{r=0}^{2^m-1} a_r \ket{r})\ket{0} \\
+    &= \bra{0}P(\boldsymbol{\theta})^\dagger(a_0\ket{0}(X\otimes I_{2^{d-1}})\ket{0}+\sum_{r=1}^{n} a_r \ket{r}e^{\phi_r}U_r(\boldsymbol{x})\ket{0}+\sum_{r=n+1}^{2^m-1} a_r \ket{r}\ket{0}) \\
+    &= \bra{0}(\sum_{r=0}^{2^m-1} a_r^\dagger \bra{r})(a_0\ket{0}(X\otimes I_{2^{d-1}})\ket{0}+\sum_{r=1}^{n} a_r \ket{r}e^{\phi_r}U_r(\boldsymbol{x})\ket{0}+\sum_{r=n+1}^{2^m-1} a_r \ket{r}\ket{0}) \\
+    &= |a_0|^2 \bra{0}X\otimes I_{2^{d-1}}\ket{0}
+    +
+    \sum_{r=1}^{n} |a_r|^2e^{\phi_r} \bra{0}U_r(\boldsymbol{x})\ket{0} 
+    +
+    \sum_{r=n+1}^{2^m-1} |a_r|^2 \bra{0}I_{2^d}\ket{0} \\
+    &= \sum_{r=1}^{n} |a_r|^2e^{\phi_r} \bra{0}U_r(\boldsymbol{x})\ket{0} 
+    + \sum_{r=n+1}^{2^m-1} |a_r|^2 \\
+    &= \sum_{r=1}^{n} |a_r|^2e^{\phi_r} e^{i\boldsymbol{j}^{(r)} \boldsymbol{x}}
+    + \sum_{r=n+1}^{2^m-1} |a_r|^2 
+\end{align*}
+
+
+% \begin{align*}
+%     \bra{0}U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})\ket{0}
+%     &= \sum_{r=1}^{n} |a_r|^2e^{\phi_r} \bra{0}U_r(\boldsymbol{x})\ket{0} 
+%     +
+%     |a_0|^2 \bra{0}X\otimes I_{2^{d-1}}\ket{0}
+%     + \sum_{r=n+1}^{2^m-1} |a_r|^2 \bra{0}I_{2^d}\ket{0} \\
+%     &= \sum_{r=0}^{n-1} |a_r|^2e^{\phi_r} \bra{0}U_r(\boldsymbol{x})\ket{0} 
+%     + \sum_{r=n+1}^{2^m-1} |a_r|^2
+% \end{align*}
+For arbitrariness of state preparation block, we can assign $|a_r|^2=|c_r|/a$ and $\phi_r = \arg c_r$ for $0\leq r\leq n-1$ and $|a_r|=0$ for $r\geq n$, satisfying $\sum_{r=0}^{2^m-1} |a_r|^2 = 1$. Then we have
+$$
+\bra{0}U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})\ket{0} 
+= 
+\sum_{r} |a_r|^2e^{\phi_r} e^{i\boldsymbol{j}^{(r)} \boldsymbol{x}}
+=
+f_k/a
+=
+\sum_{r} c_{r}e^{i\boldsymbol{j}^{(r)}\boldsymbol{x}}/a.
+$$
+It holds that
+$$
+\bra{0}
+U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})^\dagger
+O
+U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})
+\ket{0}^{1/2}
+=
+(\bra{0}
+U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})^\dagger
+\ket{0}
+\bra{0}
+U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})
+\ket{0})^{1/2}
+=
+|f_k|/a.
+$$
+So there exists $\boldsymbol{\theta}$ (which yields arbitrary $a_r$), $\boldsymbol{\phi}$ and rescale coefficient $a>0$ s.t.
+$$
+\Vert
+a\bra{0}
+U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})^\dagger
+O
+U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})
+\ket{0}^{1/2}
+- f(\boldsymbol{x})
+\Vert_2
+=
+\Vert
+|f_k| - f
+\Vert_2
+\leq 
+\Vert
+f_k - f
+\Vert_2
+\leq
+\epsilon.
+$$
+\end{proof}
+Remark that if $a$ does not match the sum of the modulus of the coefficients of $f_k$, we can set $|a_0|^2=1-\sum_{r=1}^{n} (|c_r|/a)$. It works as a regulator and allows any $a\geq \sum_{r=1}^{n}|c_{r}|$ without affecting the correctness of Theorem \ref{thm1}. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Fine-tuning strategy of the rescale coefficient}\label{apd2}
+The rescale coefficient $a$ in Theorem \ref{thm1} works as a role to break the normalization condition for coefficients of the state prepared, which corresponds to the coefficients in Fourier series. It greatly expands the expressivity of the model but $a$ is usually unknown in machine learning tasks. However, the sum of modulus of coefficients of a truncated Fourier series can be bounded by number of items $n$. Firstly we have
+\begin{equation*}
+    \sum_{\boldsymbol{j}} |c_{\boldsymbol{j}}| 
+    = \sum_{\boldsymbol{j}}\frac{1}{(2\pi)^d}\int_{[-\pi,\pi]^d}f(\boldsymbol{x})e^{-i\boldsymbol{j}\boldsymbol{x}} 
+    \leq \sum_{\boldsymbol{j}}\frac{1}{(2\pi)^d}\int_{[-\pi,\pi]^d}|f(\boldsymbol{x})e^{-i\boldsymbol{j}\boldsymbol{x}}| 
+    \leq \sum_{\boldsymbol{j}}\frac{1}{(2\pi)^d}\int_{[-\pi,\pi]^d}|f(\boldsymbol{x})||e^{-i\boldsymbol{j}\boldsymbol{x}}|. 
+\end{equation*}
+
+Since $|f(\boldsymbol{x})|\leq 1$ and $|e^{-i\boldsymbol{j}\boldsymbol{x}}|\leq 1$, 
+\begin{equation*}
+    \sum_{\boldsymbol{j}} |c_{\boldsymbol{j}}| 
+    \leq \sum_{\boldsymbol{j}}\frac{1}{(2\pi)^d}\int_{[-\pi,\pi]^d} 1 
+    = \sum_{\boldsymbol{j}}\frac{1}{(2\pi)^d} (2\pi)^d
+    = n.
+\end{equation*}
+
+Denoting the re-scale coefficient to be fine-tuned as $a'$.
+In proof of Theorem \ref{thm1} we can see that our model without rescaling can express arbitrary Fourier series with sum of modulus of coefficients less than or equal to 1. So it still holds when we set $a'$ to its upper bound, but on real-world devices the numerical precision will be insufficient and the learning landscape is poor when $a$ is actually far away from the upper bound, which is common. To make our model practical, we further give a fine-tuning strategy to find the appropriate $a'$. Our strategy consists of two steps:
+\begin{enumerate}
+    \item Normalize the dataset, remapping the value to interval [0,1] with setting the max value to 1,
+    \item Start from $a'=1$, repeat multiplying $a'$ by 2 until it learns well.
+\end{enumerate}
+In our strategy, the first step ensures that $\max_{\boldsymbol{x}} f(\boldsymbol{x})=1$. And we have a theoretical upper bound for $f_k$:
+\begin{equation*}
+f_k(\boldsymbol{x}) = \sum_{\boldsymbol{j}}^{\Vert \boldsymbol{j} \Vert_\infty \leq k}c_{\boldsymbol{j}}e^{i\boldsymbol{j}\boldsymbol{x}}
+\leq 
+\sum_{\boldsymbol{j}}^{\Vert \boldsymbol{j}\Vert_\infty \leq k}|c_{\boldsymbol{j}}e^{i\boldsymbol{j}\boldsymbol{x}}|
+\leq
+\sum_{\boldsymbol{j}}^{\Vert \boldsymbol{j}\Vert_\infty \leq k}|c_{\boldsymbol{j}}||e^{i\boldsymbol{j}\boldsymbol{x}}|
+\leq
+\sum_{\boldsymbol{j}}^{\Vert \boldsymbol{j}\Vert_\infty \leq k} |c_{\boldsymbol{j}}| = a.
+\end{equation*}
+While the $L_2$-approximation $f_k$ might strictly have a peak slightly less than 1, the constraint $a < 1$ would impose an artificial hard ceiling on the model. This would render the model mathematically incapable of representing any function values in the range $(a, 1]$. To avoid limiting the model's expressivity and to ensure it has the capacity to approximate the normalized target functions, we must permit $a \geq 1$. Therefore, starting the fine-tuning search from $a'=1$ is the minimal requirement to ensure the hypothesis space covers the target function's scale, which is set as the starting point in step 2.
+
+With step 2, we can see the training loss would be high unless it exceeds the real value for the first time. Right after that, at least we have $a'\geq a/2$, which means the amplitudes we try to learn for series have sufficient proportion. 
+
+\section{Switch to Chebyshev series and model modifications}\label{apd3}
+Fourier series are effective for periodic functions but struggle with aperiodic data. We resolve this by introducing the Chebyshev series \cite{mason2002}, creating a complementary framework where each kind of function basis adapts to different approximation needs. This appendix outlines how our model implements Chebyshev series through simple modifications.
+
+The Chebyshev series of a univariant function $f(x)\in L^2([-1,1])$ is the linear combination of Chebyshev polynomials, 
+$$
+f(x) = \sum_{j=0}^{\infty} b_j T_j(x),
+$$
+where $T_j(x)$ satisfies the recursion relations 
+\begin{align*}
+    T_0(x) &= 1, \\
+    T_1(x) &= x, \\
+    T_{j+1}(x) &= 2xT_j(x)-T_{j-1}(x).
+\end{align*}
+The closed form of $T_j(x)$ is
+$$
+T_j(x) = \cos{(j\arccos{x})}.
+$$
+The Chebyshev polynomials of multivariant function $f(\boldsymbol{x})\in L^2([-1,1]^d)$ is built by tensor products of univariant Chebyshev polynomials,
+$$
+f(\boldsymbol{x}) = \sum_{\boldsymbol{j}=\boldsymbol{0}}^{\infty} b_{\boldsymbol{j}} T_{j_1}(x_1)T_{j_2}(x_2)...T_{j_d}(x_d).
+$$
+Similar to the results of Fourier series, any square-integrable multivariant function $f(\boldsymbol{x})$ can be approximated by truncated Chebyshev series to arbitrary accuracy. A $k$-truncated Chebyshev series is defined as
+$$
+f_k(\boldsymbol{x}) = \sum_{\boldsymbol{j}=\boldsymbol{0}}^{\Vert \boldsymbol{j}\Vert_{\infty}\leq k} b_{\boldsymbol{j}} T_{j_1}(x_1)T_{j_2}(x_2)...T_{j_d}(x_d).
+$$
+\begin{lemma}(Chebyshev approximation \cite{mason2002,canuto2006})
+    For any $f\in L_2([-1,1]^d)$ and $\epsilon>0$, there exists a $k$-truncated Chebyshev series $f_k$ s.t.
+    $$
+    \Vert f(\boldsymbol{x})-f_k(\boldsymbol{x})\Vert_2 \leq \epsilon.
+    $$
+\end{lemma}
+
+To implement Chebyshev series, we replace each $R_z$ gate in spectrum selection block with $R_y$ gate. For example, to implement $T_{j_1^{(r)}}(x_1)$, we use 
+\begin{equation*}
+    R_y(2j_1^{(r)}\arccos{x_1}) = 
+    \begin{pmatrix}
+        T_{j_1^{(r)}}(x_1) & * \\
+        * & *
+    \end{pmatrix},
+\end{equation*}
+satisfying
+\begin{equation*}
+    \bra{0}U_r(\boldsymbol{x})\ket{0} = T_{j^{(r)}_1}(x_1)T_{j^{(r)}_2}(x_2)...T_{j^{(r)}_d}(x_d).
+\end{equation*}
+
+Here we also change the pre-process of inputs compared to that in implementation of Fourier series, still getting rid of classical trainable weights.
+
+Another difference is that the coefficients of Chebyshev series are real numbers. To make it suitable for Chebyshev case, the phase injection degenerates into the case whether $\phi_i = 0$ or $\phi_i = \pi$, corresponding to the 1 or -1 multiplied on each Chebyshev polynomial. With these changes to our model, we can prove UAP of SAQNN based on Chebyshev series in the completely similar way of Theorem \ref{thm1}, details omitted here.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Proof of Theorem \ref{thm2}}\label{apd4}
+We go further to show the quantum resource needed to obtain UAP. Since Sobolev spaces and Fourier series have been considerably studied, we first introduce a cutting-edge lemma adapted from approximation theory and then give a cost analysis for our model.
+\begin{definition}(Approximation numbers \cite{kuhn2016})
+    The $n$-th approximation number of bounded linear operator $T:X\rightarrow Y$ between two Banach spaces is 
+    $$
+    a_n(T:X\rightarrow Y) := \inf_{A:X\rightarrow Y}\{\Vert T-A\Vert:\text{rank}~A\leq n\}.
+    $$
+\end{definition}
+Approximation numbers describe accuracy of independent $n$ terms to uniformly approximate the whole function space under certain mapping relations.
+Since we consider the optimal linear $L_2$-approximation by Sobolev functions of finite rank, we focus on the map $\text{id}: H^s_u([-\pi,\pi]^d)\rightarrow L_2([-\pi,\pi]^d)$, which is called Sobolev embeddings. 
+\begin{lemma}[Error bounds of Fourier series approximating Sobolev functions \cite{kuhn2016}\label{lem:error}]
+    For $s>0$, we have
+    $$
+    a_n(\text{id}: H^s_u([-\pi,\pi]^d)\rightarrow L_2([-\pi,\pi]^d))
+    \leq
+    \begin{cases}
+        4^s\left(\frac{\log (1+d/\log n)}{\log n}\right)^{s/2} &:d\leq n\leq 2^d\\
+        4^s d^{-s/2}n^{-s/d} &: n\geq 2^d,
+    \end{cases}
+    $$
+    $a_n$ is reached by minimal $n$ terms of Fourier series regarding with $\Vert \boldsymbol{j}\Vert_2$ and $A$ is the projection of $\text{id}: H^s_u([-\pi,\pi]^d)\rightarrow L_2([-\pi,\pi]^d)$ on the space spanned by optimal Fourier series.
+\end{lemma}
+Here we neglect the case of $n<d$ in which the approximation to arbitrary accuracy is impossible and $a_n$ is trivial.
+
+
+\thmtwo*
+\begin{proof}
+    It's known by definition that $f\in H^s_u([-\pi,\pi]^d)\subset L_2([-\pi,\pi]^d)$ for $s>0$, 
+    so by Lemma \ref{lemma:approx} that that exists $k\in \mathbb{N}^+$ and a finite Fourier series $f_k$ s.t.
+    \begin{equation*}
+        \Vert f_k(\boldsymbol{x}) - f(\boldsymbol{x})\Vert_2 \leq \epsilon.
+    \end{equation*}
+    Let the sum of the modulus of coefficients of $f_k$ be $a$, then in a similar way of Theorem \ref{thm1} there exists $\boldsymbol{\theta}$, $\boldsymbol{\phi}$ s.t.
+    \begin{equation*}
+        \bra{0}
+        U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})^\dagger
+        O
+        U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})
+        \ket{0}
+        =
+        \bra{0}
+        U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})^\dagger
+        \ket{0}
+        \bra{0}
+        U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})
+        \ket{0}
+        =
+        f_k^2/a^2.
+    \end{equation*}
+   
+   Then
+   \begin{equation*}
+       \Vert a\bra{0}U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})^\dagger O U_{\boldsymbol{\theta,\phi}}(\boldsymbol{x})\ket{0}^{1/2} 
+        -
+        f(\boldsymbol{x})
+        \Vert_{2}
+        \leq
+        \Vert f_k(\boldsymbol{x}) 
+        -
+        f(\boldsymbol{x})
+        \Vert_{2}
+        \leq
+        \epsilon
+   \end{equation*}
+   
+   
+   Next we analyze the circuit cost. By Lemma \ref{lem:error}, we have 
+    \begin{equation}
+        4^s d^{-s/2} \leq a_n \leq 4^s \left(\frac{\log (1+d/\log d)}{\log d}\right)^{s/2}
+    \end{equation}
+    when $d \leq n \leq 2^d$, and
+    \begin{equation*}
+        0 < a_n \leq 2^s d^{-s/2}
+    \end{equation*}
+    when $n \geq 2^d$.
+
+    Case 1. $4^s \left(\frac{\log (1+d/\log d)}{\log d}\right)^{s/2} \leq \epsilon \leq 1$. Then it holds for all $n\geq d$ that
+    \begin{equation*}
+        a_n \leq 4^s \left(\frac{\log (1+d/\log d)}{\log d}\right)^{s/2} \leq \epsilon.
+    \end{equation*}
+    So we only need to set $n=d$ to get accuracy $\epsilon$.
+
+    Case 2. $4^s d^{-s/2} \leq \epsilon \leq 4^s \left(\frac{\log (1+d/\log d)}{\log d}\right)^{s/2}$. To ensure the accuracy $\epsilon$, the upper bound of $a_n$ should satisfies
+    \begin{align*}
+        4^s\left(\frac{\log (1+d/\log n)}{\log n}\right)^{s/2} \leq \epsilon.
+    \end{align*}
+    For the convenience of solving $n$, we relax the upper bound of $a_n$,
+    \begin{align*}
+        \frac{\log (1+d/\log n)}{\log n} \leq \frac{\log (1+d/\log d)}{\log n} \leq \frac{\log (1+d)}{\log n},
+    \end{align*}
+    where $d \geq 2$. Then solve $n$ from the inequality
+    \begin{align*}
+        4^s\left(\frac{\log (1+d)}{\log n}\right)^{s/2} \leq \epsilon,
+    \end{align*}
+    we have
+    \begin{align*}
+        \log n &\geq 16 (1/\epsilon)^{2/s} \log(1+d), 
+    \end{align*}
+    which implies
+    \begin{equation*}
+        n \geq (d+1)^{16(1/\epsilon)^{2/s}}.
+    \end{equation*}
+    
+    Case 3. $2^s d^{-s/2} \leq \epsilon \leq 4^s d^{-s/2}$. Recall that $a_n \leq 2^s d^{-s/2}$ for $n \geq 2^d$, we only need to set $n=2^d$.
+
+    Case 4. $0 \leq \epsilon \leq 2^s d^{-s/2}$. In this case, we solve the inequality
+    \begin{equation*}
+        4^s d^{-s/2} n^{-s/d} \leq \epsilon,
+    \end{equation*}
+    then we get
+    \begin{equation*}
+        n \geq 4^d(1/\epsilon)^{d/s}d^{-d/2}.
+    \end{equation*}
+    So 
+    \begin{align*}
+        \log n \geq 2d +\frac{d}{s}\log (1/\epsilon) -\frac{d}{2}\log d.
+    \end{align*}
+    Relaxing $\log d$ to 1, we have
+    \begin{equation*}
+        \log n \geq \frac{3}{2}d +\frac{d}{s}\log (1/\epsilon).
+    \end{equation*}
+    Since $\epsilon \leq 2^s d^{-s/2}$, we have an upper bound $d \leq 4(1/\epsilon)^{2/s}$. Then
+    \begin{equation*}
+        \log n \geq 6(1/\epsilon)^{2/s} + \frac{4}{s}(1/\epsilon)^{2/s}\log (1/\epsilon),
+    \end{equation*}
+    which implies
+    \begin{equation*}
+        n \geq 2^{6(1/\epsilon)^{2/s}} (1/\epsilon)^{\frac{4}{s}(1/\epsilon)^{2/s}}.
+    \end{equation*}
+
+    To rule them all in four cases, we give an inequality that holds for any $0\leq \epsilon \leq 1$ and $d\geq 2$:
+    \begin{equation*}
+        n \geq (d+1/\epsilon)^{16(1/\epsilon)^{2/s}}.
+    \end{equation*}
+    Due to the optimality of Fourier series approximating Sobolev spaces under $L_2$ norm \cite{pinkus2012}, the minimal $n$ to achieve accuracy $\epsilon$ is $(d+1/\epsilon)^{16(1/\epsilon)^{2/s}}$.
+
+    Back to our model, to realize a Fourier series with $n$ terms, the state preparation block should prepare $O(n)$ different real amplitudes, and the phase injection block should pair each amplitude with a phase, which also produces $O(n)$ parameters. So the parameter complexity of our model is totally $O(n) = O((d+1/\epsilon)^{16(1/\epsilon)^{2/s}})$.  
+
+    Further, we need $O(\log n)$ qubits of state preparation block to generate $O(n)$ amplitudes, and extra $O(d)$ qubits to apply $U_r$. However, we can use only one $R_z$ gate to implement each $U_r$,
+    \begin{equation*}
+        U_r(\boldsymbol{x}) = R_z(-2\boldsymbol{j}^{(r)}\boldsymbol{x}),
+    \end{equation*}
+    which still satisfies
+    \begin{equation*}
+        \bra{0}U_r (\boldsymbol{x})\ket{0} = e^{i\boldsymbol{j}^{(r)}\boldsymbol{x}}.
+    \end{equation*}
+    The inputs $\boldsymbol{x}$ are more densely encoded for reducing qubit cost of SAQNN.
+    
+    This optimization technique uses a different pre-process to compresses inputs into one rotation gate while not affecting the correctness of Theorem \ref{thm1} and Theorem \ref{thm2}. So the number of qubits needed here can be reduced to 1. The width (number of qubits) of our model is $O(\log n) = (1/\epsilon)^{2/s}\log(d+1/\epsilon)$.
+
+    To analyze the circuit depth, we should take use of Lemma \ref{lemma1}, which implies a $O(2^{k-1})$ depth synthesis for $k$-qubit multiplexor-$R_y$ gate. So the circuit depth of state preparation block is $\sum_{k=1}^{m}2^{k-1}=O(2^m)=O(n)$. In spectrum selection block, we have $O(n)$ layers. In each layer, we can synthesize the controlled-$R_z$ gate as below: 
+    \begin{center}
+    \scalebox{1.2}{
+    \begin{tikzpicture}
+    \begin{yquantgroup}
+    \registers{
+    qubit {} q[2];
+    
+    }
+    \circuit{
+    slash q[0];
+    hspace {2mm} q[1];
+    box {$R_z(-2\boldsymbol{j}^{(r)}\boldsymbol{x})$} q[1]| q[0];
+    hspace {2mm} q[1];
+    }
+    \equals
+    \circuit{
+    slash q[0];
+    hspace {2mm} q[1];
+    box {$R_z(-\boldsymbol{j}^{(r)}\boldsymbol{x})$} q[1];
+    cnot q[1]|q[0];
+    box {$R_z(\boldsymbol{j}^{(r)}\boldsymbol{x})$} q[1];
+    cnot q[1]|q[0];
+    hspace {2mm} q[1];
+    }
+    \end{yquantgroup}
+    \node [scale=0.75] at (0.08,0.05) {$m$};
+    \node [scale=0.75] at (3.25,0.05) {$m$};
+
+    \end{tikzpicture}
+    }
+    \end{center}
+    It's known that each $(m+1)$-qubit Toffoli gate can be implemented by CNOT gate in depth $O(m)$ \cite{Saeedi2013}. So the circuit depth of spectrum selection block is $O(mn)=O(n\log n)$. Similarly the depth of inversion of state preparation block is also $O(n)$. As a whole, the circuit depth of our model is $O(n\log n) = O((d+1/\epsilon)^{16(1/\epsilon)^{2/s}}(1/\epsilon)^{2/s}\log(d+1/\epsilon))$.
+
+    
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Parameter optimality}\label{apd5}
+% We try to compare our model with the related result in QNN and SOTA in classical neural networks. For classical model, we focus on the feed-forward neural networks (FNN) with rectified linear unit (ReLU) activation function. Such neural networks can fundamentally represent a vast range of classical neural networks. Here $\text{ReLU}(x):=\max\{0,x\}$. 
+
+% The comparative results comes from \cite{} and \cite{}, which are respectively best QNN model and FNN model for UAP to our knowledge. Note that results in related researches have different settings for function spaces, we choose the continuous function spaces $C^s_u([-1,1]^d)$ as the shared target between models, which are common in various machine learning tasks and can be easily embedded into original function spaces. 
+
+% Now we compare the model size (defined as the product of width and depth) and parameter complexity. These are indicators of circuit cost that are widely concerned. To be specific, the model size of QNN in \cite{} is $O(d^{2d+s+1}\epsilon^{-d/s})$ and parameter complexity is $O(d^{2d+s+1}\epsilon^{-d/s})$. The model size of FNN in \cite{} is $O(s^{d^2+d+3}\epsilon^{-d/2s})$ and the parameter complexity is $O(s^{d^2+2d+4}\epsilon^{-d/2s})$. 
+
+% To get accuracy of $\epsilon$, the model size and parameter complexity grow with $d$ and $1/\epsilon$. But in real-world machine learning scenarios, the target functions to be learned usually have modest $s$ and large $d$. For example, the input dimension of dataset ImageNet is about $10^6$, but empirically $s\leq 10$. So in the rest of the section, we only consider the case $2\leq s \ll d$, reasonable for almost all of the common machine learning tasks.
+
+% Recall that the size of our model is $O(n\log^2n) = O((d+1/\epsilon)^{16(1/\epsilon)^{2/s}}(1/\epsilon)^{4/s}\log^2(d+1/\epsilon))$, the parameter complexity is $O(n)=O((d+1/\epsilon)^{16(1/\epsilon)^{2/s}})$. With regard to input dimension $d$, we are in $\text{poly}(d)$ on both model size and parameter complexity. Nevertheless, the results of other QNN and FNN are $O(d^d\epsilon^{-d})$ and $O(d^{d^2\log_s d}\epsilon^{-d})$ respectively. With accuracy $\epsilon$ not that small (say, $\sim 10^{-3}$), our model has dominance over SOTA of ReLU-FNN on large-scale machine learning tasks. 
+
+In approximation theory, the approximation methods mainly conclude linear methods \cite{pinkus2012} and nonlinear methods \cite{devore1998}. Linear methods refer to the linear combination of simple function basis, such as Fourier series, Chebyshev series, Bernstein polynomials and so on. They span linear subspaces to approximate target functions and takes the form
+\begin{equation*}
+    A(f) = a_0 f_0+a_1f_1+...+a_l f_l.
+\end{equation*}
+
+Nonlinear approximation methods remove the constraint of linear dependence on parameters. The approximating function is a nonlinear function of the parameters, or the selection of basis functions itself depends on the function being approximated. The approximation $A(f)$ does not have a simple linear structure. A well-known example for nonlinear methods is FNNs with single hidden layer, whose expression can be written as
+\begin{equation*}
+    A(f) = \sigma(\sum_{i}w_i x_i),
+\end{equation*}
+where $\sigma$ is the nonlinear activation function. It has been proved to have UAP in early years \cite{cybenko1989,hornik1989}.
+
+When considering the number of parameters needed to approximate specific functions, the commonly used indicators are Kolmogorov $n$-width for linear methods and manifold $n$-width for nonlinear methods. 
+\begin{definition}[Kolmogorov $n$-width \cite{kolmogorov1936,pinkus2012}]
+    Let $K$ be a subset of a normed linear space $X$. The Kolmogorov $n$-width $d_n(K,X)$ measures the error of the best approximation to $K$ by $n$-dimensional linear subspaces of $X$. It is defined as:
+    \begin{equation*}
+        d_n(K,X) := \inf_{X_n}\sup_{f\in K}\inf_{g\in X_n} \Vert f-g \Vert_X,
+    \end{equation*}
+    where the outer infimum is taken over all linear subspaces $X_n \subset X$ of dimension at most $n$. 
+    
+    This quantity characterizes the fundamental limit of linear approximation methods. Note that Kolmogorov $n$-width $d_n(H^s([-\pi,\pi]^d),L^2([-\pi,\pi]^d))$ is same to the $n$-th approximation number $a_n(H^s([-\pi,\pi]^d)\rightarrow L^2([-\pi,\pi]^d))$ in our case.
+\end{definition}
+To characterize the approximation power of nonlinear parameterized models, we consider the Manifold $n$-width.
+\begin{definition}[Manifold $n$-width \cite{devore1989,maiorov1999}]
+     Let $M_n$ denote a continuous manifold in $X$ parameterized by $n$ real variables, known as $M_n = \{R(a):a\in \mathbb{R}^n\}$ for a continuous mapping $R:\mathbb{R}^n\rightarrow X$. The Manifold $n$-width $\delta_n(K,X)$ is defined as 
+    \begin{equation*}
+        \delta_n(K,X) := \inf_{M_n}\sup_{f\in K}\inf_{g\in M_n} \Vert f-g \Vert_X.
+    \end{equation*}
+\end{definition}
+It has been shown in approximation theory that in terms of the scaling of parameter count $n$, it satisfies \cite{devore1989,edmunds1996,pinkus2012,geller2014}
+\begin{equation*}
+    d_n(H^s([-\pi,\pi]^d),L^2([-\pi,\pi]^d)) \asymp
+    \delta_n(H^s([-\pi,\pi]^d),L^2([-\pi,\pi]^d)) \asymp
+    n^{-s/d},
+\end{equation*}
+here $a\asymp b$ means that there exists constants $c_1,c_2$ s.t. $c_1 b \leq a \leq c_2 b$.
+
+The parameter efficiency of linear methods is same as that of nonlinear methods. So the $O(n)$ parameter complexity of SAQNN is optimal among linear and nonlinear methods, with all quantum and classical neural networks not being better than our model in asymptotic order of parameters when approximating Sobolev functions to accuracy $\epsilon$ under $L_2$ norm. 
+
+
+
+\end{document}
+
+% This document was modified from the file originally made available by
+% Pat Langley and Andrea Danyluk for ICML-2K. This version was created
+% by Iain Murray in 2018, and modified by Alexandre Bouchard in
+% 2019 and 2021 and by Csaba Szepesvari, Gang Niu and Sivan Sabato in 2022.
+% Modified again in 2023 and 2024 by Sivan Sabato and Jonathan Scarlett.
+% Previous contributors include Dan Roy, Lise Getoor and Tobias
+% Scheffer, which was slightly modified from the 2010 version by
+% Thorsten Joachims & Johannes Fuernkranz, slightly modified from the
+% 2009 version by Kiri Wagstaff and Sam Roweis's 2008 version, which is
+% slightly modified from Prasad Tadepalli's 2007 version which is a
+% lightly changed version of the previous year's version by Andrew
+% Moore, which was in turn edited from those of Kristian Kersting and
+% Codrina Lauth. Alex Smola contributed to the algorithmic style files.

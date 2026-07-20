@@ -1,0 +1,90 @@
+{
+  "candidate": {
+    "arxiv": "2602.09718",
+    "official_jury_claim_count": 3,
+    "openreview_id": "QaHFVheV8X",
+    "points_possible": 6,
+    "title": "SAQNN: Spectral Adaptive Quantum Neural Network as a Universal Approximator"
+  },
+  "candidate_decision": {
+    "recommended_for_future_claim": true,
+    "required_disclosures": [
+      "The live universal-approximation wording omits the source theorem's [0,1] range restriction and is false for general signed L2 targets under the source positive-rescaling construction.",
+      "The circuit-size comparison is fixed-accuracy/high-dimension only; it is not uniform as epsilon tends to zero at fixed d.",
+      "The parameter-optimality result follows from the source Case-4 Fourier/n-width rate at fixed d and high accuracy, not from treating its uniform sufficient n display as a tight rate.",
+      "The accepted source includes no executable author implementation; all calculations are clean-room."
+    ]
+  },
+  "claims": {
+    "claim_1_universal_approximation": {
+      "live_claim_outcome": "falsified_as_written_range_omitted",
+      "maximum_source_amplitude_construction_error": 4.440892098500626e-16,
+      "minimum_restricted_target_value": 0.28284531859642115,
+      "negative_constant_counterexample_nonnegative_output_lower_bound": 0.25,
+      "pass": true,
+      "restricted_nonnegative_finite_fourier_cells": 6144,
+      "signed_l2_counterexample": "sin(x)",
+      "signed_l2_counterexample_nonnegative_output_lower_bound": 0.5,
+      "source_theorem_scope": "[0,1]-valued L2 targets with positive a=sum_r |c_r|"
+    },
+    "claim_2_circuit_size_advantage": {
+      "fixed_accuracy_high_dimension_cells": 27,
+      "high_accuracy_fixed_dimension_control": {
+        "dimension": 2,
+        "epsilon": 0.001,
+        "log_classical_size": 6.210693239105087,
+        "log_saqnn_size": 110579.27906218462,
+        "rejected_unqualified_all_regime_advantage": true,
+        "smoothness": 2.0
+      },
+      "minimum_log_classical_size_minus_log_saqnn_size": 172203.06501151403,
+      "pass": true,
+      "scope": "Fixed epsilon and sufficiently large dimension; the source comparison is not uniform in accuracy.",
+      "source_resource_model": "SAQNN n log(n)^2 versus displayed ReLU-FNN circuit-size expression",
+      "verdict": "verified_for_source_fixed_accuracy_high_dimension_comparison"
+    },
+    "claim_3_parameter_optimality": {
+      "case_four_parameter_exponent": "d/s in log N versus log(1/epsilon)",
+      "fixed_dimension_high_accuracy_rate_cells": 36,
+      "maximum_case_four_log_parameter_slope_error": 2.220446049250313e-15,
+      "nwidth_lower_bound_exponent": "d/s",
+      "pass": true,
+      "scope": "Fixed d and epsilon -> 0, where the source Case-4 Fourier construction has the n-width exponent d/s.",
+      "uniform_display_control_rejected_as_optimal_fixed_d_rate": true,
+      "uniform_display_nonoptimality_control_log_gaps": [
+        113.28631166947562,
+        292.65145036155803,
+        737.1625812991783
+      ],
+      "verdict": "verified_for_source_fixed_dimension_high_accuracy_parameter_rate"
+    }
+  },
+  "methodology": {
+    "compute": "deterministic CPU finite Fourier and logarithmic resource arithmetic",
+    "network_access": false,
+    "uses_competitor_code_or_results": false
+  },
+  "pass": true,
+  "source": {
+    "arxiv_source_executable_files": [],
+    "pass": true,
+    "primary_tex_sha256": "6ebdba9491251535fcd966fafe13ac735220a9aae9225e4f0391d558683d5ff2",
+    "scope_disclosures": {
+      "circuit_advantage_fix_epsilon_high_d_only": true,
+      "parameter_optimality_is_fixed_d_high_accuracy_fourier_rate": true,
+      "theorem_1_is_nonnegative_range_restricted": true,
+      "uniform_resource_display_is_not_a_tight_fixed_d_accuracy_rate": true
+    },
+    "source_anchors": [
+      "case_4_rate",
+      "fixed_accuracy_high_dimension_scope",
+      "fourier_nwidth_rate",
+      "positive_rescale_proof",
+      "theorem_1_observable",
+      "theorem_1_range",
+      "theorem_2_resource_formula",
+      "theorem_2_sobolev_range"
+    ],
+    "source_file_count": 11
+  }
+}

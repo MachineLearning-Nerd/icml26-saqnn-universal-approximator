@@ -1,0 +1,16 @@
+{
+  "paper": "QaHFVheV8X",
+  "source_pinned": true,
+  "live_contract_pinned": true,
+  "live_claim_count": 3,
+  "claim_1_universal_approximation": true,
+  "claim_1_outcome": "falsified_as_written_range_omitted",
+  "claim_2_circuit_size_advantage": true,
+  "claim_3_parameter_optimality": true,
+  "decisive_claims": 3,
+  "earned_points": 6,
+  "all_claims_complete": true,
+  "tests_passed": true,
+  "publication_gate_passed": true,
+  "scope": "C1 falsifies the broader live wording while reproducing the source [0,1] construction. C2 uses fixed accuracy and sufficiently high dimension. C3 uses fixed dimension and high accuracy, where the Case-4 Fourier rate matches n-width exponent d/s."
+}

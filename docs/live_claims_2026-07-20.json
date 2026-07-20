@@ -1,0 +1,13 @@
+{
+  "endpoint": "https://huggingface.co/spaces/ICML-2026-agent-repro/challenge/resolve/main/claims.json",
+  "fetched_on": "2026-07-20",
+  "openreview_id": "QaHFVheV8X",
+  "claims": [
+    "The constructive QNN has the universal approximation property: approximates any square-integrable function to arbitrary accuracy.",
+    "It has an asymptotic advantage over the best classical feed-forward networks in circuit size.",
+    "It achieves optimal parameter complexity when approximating Sobolev functions under the L2 norm."
+  ],
+  "claim_count": 3,
+  "points_possible": 6,
+  "status_at_fetch": "unverified"
+}

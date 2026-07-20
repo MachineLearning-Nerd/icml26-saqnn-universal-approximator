@@ -1,0 +1,27 @@
+{
+  "artifacts": {
+    "README.md": "ff77985b89cf8300d644728e5d58ac403c63598162b779407d76b3997060b0de",
+    "STATUS.md": "8cd26a44221596d25a362ab195e523e6d558a58498752682beb5a4001ddfb561",
+    "docs/arxiv_source.tar": "0909b548f500f6a09dbade8b9caba91ff5f8525d0e6f3bb7ebde866f74b1e3bd",
+    "docs/live_claims_2026-07-20.json": "aa0380ab3d166aafa9b40b493dfee022987c111e9e76f73910bb7d9a374a0810",
+    "docs/primary.pdf": "18d1d80ef4b984084f11904590e3b75b354cef898a3fd3eed0c0a651a9493a33",
+    "docs/source/main.tex": "6ebdba9491251535fcd966fafe13ac735220a9aae9225e4f0391d558683d5ff2",
+    "docs/source_pins.json": "08b1c82496c68819a6627528f981180f78d98499f343986fd67936cc51dde39d",
+    "outputs/claim_verification.json": "5d993a1478919be1590ae512c9ed16fbc7ec7b8d8c9a124b1d12bcd73f4519b0",
+    "outputs/full_audit.json": "bc90d740e92b1f7277857413f6fdeec31a7ffb6050d221fe10ed6f13181348e3",
+    "outputs/test_results.json": "bad66a009bf730a345f2beee972a34fdd2474f07167fcf6dfd9122bdfab1fed8",
+    "repro/src/full_audit.py": "53421da33ac4ff7e4e9958e63d21ab9929fcaa84f9f6b351f3ccce5c748a090f",
+    "repro/src/run_tests.py": "65817cbedb0309b149b1fcd2e49d22722dc50444e398991317682774943bcc21",
+    "repro/src/verify_claims.py": "24b30870c7cd0481e052921cb0ac466029fcc9da7ce32ec1e06a0eef154749be",
+    "repro/tests/test_audit.py": "90d6ad685fbb5cde340ce3fa4b8fa1101fb20de9eea2ee0bb114d5f1ea356b50"
+  },
+  "claim_outcomes": {
+    "claim_1": "falsified_live_wording_omits_nonnegative_range",
+    "claim_2": "verified_fixed_accuracy_high_dimension_source_comparison",
+    "claim_3": "verified_fixed_dimension_high_accuracy_fourier_rate"
+  },
+  "earned_points": 6,
+  "gate": "FULL_GATE_READY",
+  "live_claim_count": 3,
+  "paper": "QaHFVheV8X"
+}
