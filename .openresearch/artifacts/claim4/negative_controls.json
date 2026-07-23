@@ -1,0 +1,5 @@
+{
+  "control": "drop the final CNOT from the multiplexor synthesis",
+  "unitary_error": 1.403972,
+  "detected": true
+}

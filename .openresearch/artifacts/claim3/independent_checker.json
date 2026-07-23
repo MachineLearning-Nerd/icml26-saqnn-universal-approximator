@@ -1,0 +1,10 @@
+{
+  "verdict": "VERIFIED",
+  "checker": "repro/tests/test_audit.py",
+  "tests": [
+    "test_claim_2_conditional_circuit_advantage",
+    "test_claim_3_fixed_dimension_parameter_rate"
+  ],
+  "implementation": "independent unittest assertions over the source-pinned audit output",
+  "tests_passed": 2
+}

@@ -1,0 +1,16 @@
+{
+  "fixed_d_high_accuracy_control": {
+    "d": 2,
+    "s": 2,
+    "epsilon": 0.001,
+    "log_classical_size": 6.210693239105087,
+    "log_saqnn_size": 110579.27906218462,
+    "unqualified_all_regime_advantage_rejected": true
+  },
+  "uniform_sufficient_n_rejected_as_tight_fixed_d_rate": true,
+  "uniform_display_nonoptimality_log_gaps": [
+    113.28631166947562,
+    292.65145036155803,
+    737.1625812991783
+  ]
+}

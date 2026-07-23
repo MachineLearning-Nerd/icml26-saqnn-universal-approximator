@@ -1,0 +1,20 @@
+{
+  "verdict": "VERIFIED",
+  "formal_run_id": "2d57348a-b046-4ae9-9ba9-fbc35e494217",
+  "git_sha": "bf59372d63517e5ed0012be2e3494f5e607d3283",
+  "cases": [
+    {"n_qubits": 2, "kind": "Ry", "cnot_count": 2, "unitary_max_err": 0.0},
+    {"n_qubits": 2, "kind": "Rz", "cnot_count": 2, "unitary_max_err": 0.0},
+    {"n_qubits": 3, "kind": "Ry", "cnot_count": 4, "unitary_max_err": 0.0},
+    {"n_qubits": 3, "kind": "Rz", "cnot_count": 4, "unitary_max_err": 0.0},
+    {"n_qubits": 4, "kind": "Ry", "cnot_count": 8, "unitary_max_err": 0.0},
+    {"n_qubits": 4, "kind": "Rz", "cnot_count": 8, "unitary_max_err": 0.0},
+    {"n_qubits": 5, "kind": "Ry", "cnot_count": 16, "unitary_max_err": 0.0},
+    {"n_qubits": 5, "kind": "Rz", "cnot_count": 16, "unitary_max_err": 0.0},
+    {"n_qubits": 6, "kind": "Ry", "cnot_count": 32, "unitary_max_err": 0.0},
+    {"n_qubits": 6, "kind": "Rz", "cnot_count": 32, "unitary_max_err": 0.0}
+  ],
+  "all_CNOT_counts_equal_2_pow_n_minus_1": true,
+  "all_decompositions_exact": true,
+  "results_sha256": "90223a1379c08af47a03068d877a52b99125745611676661eadfb531062caeb4"
+}

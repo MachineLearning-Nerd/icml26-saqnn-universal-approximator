@@ -1,0 +1,14 @@
+{
+  "claim_id": 5,
+  "paper": "arXiv:2602.09718",
+  "source_anchor": "Section 3.2; Appendix C",
+  "statement": "SAQNN can switch between Fourier and Chebyshev bases, supporting periodic and non-periodic approximation scenarios.",
+  "machine_acceptance": {
+    "Fourier_statevector_exact": true,
+    "Chebyshev_Tk_k_1_through_7_exact": true,
+    "nonperiodic_Chebyshev_convergence": true,
+    "bases_numerically_distinct": true,
+    "wrong_basis_control": true
+  },
+  "allowed_verdicts": ["VERIFIED", "FALSIFIED", "BLOCKED"]
+}

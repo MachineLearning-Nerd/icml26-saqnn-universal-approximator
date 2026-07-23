@@ -1,0 +1,7 @@
+{
+  "verdict": "VERIFIED",
+  "checker": "direct dense-unitary comparison against independently assembled target multiplexor",
+  "cases": 10,
+  "maximum_unitary_error": 0.0,
+  "note": "The target-unitary construction and synthesized-gate multiplication are separate code paths in the verifier; no external quantum SDK is used."
+}

@@ -1,0 +1,19 @@
+{
+  "verdict": "VERIFIED",
+  "formal_run_id": "2d57348a-b046-4ae9-9ba9-fbc35e494217",
+  "git_sha": "bf59372d63517e5ed0012be2e3494f5e607d3283",
+  "parameter_optimality": {
+    "dimensions": [2, 4, 8],
+    "smoothness": [1, 2, 4],
+    "epsilon": [0.04, 0.02, 0.01, 0.005],
+    "cells": 36,
+    "expected_log_parameter_exponent": "d/s",
+    "maximum_slope_error": 2.220446049250313e-15
+  },
+  "circuit_size_advantage": {
+    "cells": 27,
+    "maximum_dimension": 100000,
+    "minimum_log_classical_minus_log_saqnn": 172203.06501151403,
+    "scope": "fixed accuracy, sufficiently high dimension"
+  }
+}

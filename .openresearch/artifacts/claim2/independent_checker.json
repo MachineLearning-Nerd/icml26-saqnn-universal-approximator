@@ -1,0 +1,12 @@
+{
+  "verdict": "VERIFIED",
+  "implementation_independence": "no import from primary verifier",
+  "n_values_checked": 8191,
+  "exhaustive_n_range": [2, 8192],
+  "power_of_two_transition_checks": 13,
+  "bounds": {
+    "width_O_log_n": true,
+    "parameters_O_n": true,
+    "depth_O_n_log_n": true
+  }
+}

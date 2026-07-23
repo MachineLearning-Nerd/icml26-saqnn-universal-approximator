@@ -1,0 +1,17 @@
+{
+  "claim_id": 3,
+  "paper": "arXiv:2602.09718",
+  "source_anchor": "Section 1.2, Section 3.3, Appendix E",
+  "statement": "At fixed d and high accuracy, SAQNN matches the d/s parameter exponent of the Sobolev n-width; at fixed non-tiny accuracy and sufficiently high d, its displayed circuit size is asymptotically below the cited ReLU-FNN size.",
+  "scope_controls": [
+    "The circuit-size advantage is not claimed uniformly as epsilon tends to zero at fixed d.",
+    "The parameter-rate comparison uses the source Case-4 Fourier rate, not the loose uniform sufficient-n display."
+  ],
+  "machine_acceptance": {
+    "fixed_dimension_rate_cells": 36,
+    "fixed_accuracy_high_dimension_cells": 27,
+    "slope_error_at_most": 1e-12,
+    "opposite_regime_control_detected": true
+  },
+  "allowed_verdicts": ["VERIFIED", "FALSIFIED", "BLOCKED"]
+}

@@ -1,0 +1,28 @@
+{
+  "verdict": "VERIFIED",
+  "formal_run_id": "2d57348a-b046-4ae9-9ba9-fbc35e494217",
+  "git_sha": "bf59372d63517e5ed0012be2e3494f5e607d3283",
+  "statevector_identity": {
+    "Fourier_d1_max_error": 2.48e-16,
+    "Fourier_d2_max_error": 2.12e-16,
+    "Chebyshev_k_1_through_7_max_error": 4.44e-16,
+    "explicit_target_reconstruction_max_error": 3.33e-16
+  },
+  "Fourier_periodic": [
+    {"k": 1, "L2_error": 0.41233425},
+    {"k": 2, "L2_error": 0.21210614},
+    {"k": 3, "L2_error": 0.0},
+    {"k": 4, "L2_error": 0.0},
+    {"k": 6, "L2_error": 0.0},
+    {"k": 8, "L2_error": 0.0}
+  ],
+  "Chebyshev_nonperiodic": [
+    {"k": 2, "L2_error": 0.2215524939},
+    {"k": 4, "L2_error": 0.0163438565},
+    {"k": 6, "L2_error": 0.0007027563},
+    {"k": 8, "L2_error": 0.0000183734},
+    {"k": 12, "L2_error": 4.1e-9},
+    {"k": 16, "L2_error": 0.0}
+  ],
+  "results_sha256": "1a7224a469c1ea380079c92e05341f4b673bf733710f94c9d8836c31bd4e1eec"
+}

@@ -1,0 +1,7 @@
+{
+  "floor_log_capacity_failures": 8178,
+  "missing_Toffoli_m_factor_detected_at": [4, 8, 16, 32, 64, 128],
+  "omitted_spectrum_layer_detected": true,
+  "false_linear_depth_claim_detected": true,
+  "missing_coefficient_phase_detected": true
+}

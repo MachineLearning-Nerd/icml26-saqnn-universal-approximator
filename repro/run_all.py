@@ -46,6 +46,7 @@ BASELINE_STEPS = (
         "Claim 1 frozen evidence package",
         "repro/src/verify_claim1_evidence_package.py",
     ),
+    ("release asset integrity", "repro/src/verify_release_assets.py"),
     ("baseline evidence hash bundle", "repro/src/build_evidence_bundle.py"),
 )
 
