@@ -1,0 +1,13 @@
+{
+  "environment_manager": "uv",
+  "install_command": "uv sync --frozen",
+  "lockfile": "uv.lock",
+  "lockfile_sha256": "ca90fb40e1c1b24c8b84e8dd3f6809d1c5e91ca6833e9d2e72e1dc1b12e85f32",
+  "machine": "arm64",
+  "numpy": "2.5.1",
+  "operating_system": "macOS-26.5.2-arm64-arm-64bit",
+  "python": "3.12.11",
+  "python_pin_file": ".python-version",
+  "python_pin_value": "3.12",
+  "resolved_versions": "All 35 transitive distributions are pinned in uv.lock; the formal run printed every installed distribution before executing evidence."
+}

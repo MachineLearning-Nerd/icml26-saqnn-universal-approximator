@@ -1,0 +1,10 @@
+{
+  "backend": "local",
+  "compute": "Apple arm64 CPU, 8 logical CPUs",
+  "cost_usd": 0.0,
+  "exact_run_command": "uv sync --frozen && uv run --frozen python repro/run_all.py",
+  "formal_run_id": "2d57348a-b046-4ae9-9ba9-fbc35e494217",
+  "git_sha": "bf59372d63517e5ed0012be2e3494f5e607d3283",
+  "python": "3.12.11",
+  "uv_lock_sha256": "ca90fb40e1c1b24c8b84e8dd3f6809d1c5e91ca6833e9d2e72e1dc1b12e85f32"
+}

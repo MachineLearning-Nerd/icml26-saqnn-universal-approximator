@@ -1,0 +1,9 @@
+{
+  "all_detected": true,
+  "detection_threshold": 0.0001,
+  "measured_l2_errors": {
+    "phase_dropped": 0.5398774299869581,
+    "term_dropped": 0.4699384231818293,
+    "wrong_state_amplitudes": 0.3776482629542331
+  }
+}

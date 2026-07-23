@@ -1,0 +1,24 @@
+{
+  "claim_id": 1,
+  "paper": "arXiv:2602.09718",
+  "source_anchor": "Theorem 1, Section 3.2; proof in Appendix A",
+  "statement": "For every multivariate square-integrable f on [-pi,pi]^d with values in [0,1] and every epsilon > 0, some SAQNN parameters theta, phi and positive rescale a achieve L2 error at most epsilon.",
+  "assumptions": {
+    "dimension": "positive integer d",
+    "domain": "[-pi,pi]^d",
+    "target_space": "L2",
+    "target_range": "[0,1]",
+    "accuracy": "epsilon > 0",
+    "observable": "O = |0><0|",
+    "output": "a times the square root of the O measurement probability"
+  },
+  "proof_obligations": [
+    "Trigonometric polynomials are dense in L2 on the d-torus.",
+    "State preparation and phase injection encode every finite complex coefficient vector after positive l1 rescaling.",
+    "Spectrum selection realizes exp(i j dot x) for every selected integer frequency.",
+    "The measured square-root output equals the magnitude of the selected polynomial.",
+    "For f >= 0, pointwise ||g|-f| <= |g-f|, hence the L2 error cannot increase."
+  ],
+  "allowed_verdicts": ["VERIFIED", "FALSIFIED", "BLOCKED"],
+  "verdict": "VERIFIED"
+}

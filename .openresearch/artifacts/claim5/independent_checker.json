@@ -1,0 +1,9 @@
+{
+  "verdict": "VERIFIED",
+  "checker": "independent SAQNN statevector forward-map verifier",
+  "Fourier_d1_max_error": 2.48e-16,
+  "Fourier_d2_max_error": 2.12e-16,
+  "Chebyshev_k_1_through_7_max_error": 4.44e-16,
+  "state_preparation_unitary": true,
+  "coefficient_encoding_exact": true
+}

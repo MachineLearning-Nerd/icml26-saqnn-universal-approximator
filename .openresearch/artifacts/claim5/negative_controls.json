@@ -1,0 +1,10 @@
+{
+  "bases_distinct_T3_vs_cos3_L2_difference": 0.9821,
+  "bases_are_distinct": true,
+  "nonperiodic_at_k16": {
+    "Fourier_L2_error": 0.011321,
+    "Chebyshev_L2_error": 0.006455,
+    "Chebyshev_better_ratio": 1.754
+  },
+  "wrong_basis_is_worse": true
+}

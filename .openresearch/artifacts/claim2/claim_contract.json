@@ -1,0 +1,20 @@
+{
+  "claim_id": 2,
+  "paper": "arXiv:2602.09718",
+  "source_anchor": "Theorem 2, Section 3.3; Appendix D",
+  "statement": "For [0,1]-valued Sobolev-unit-ball targets, SAQNN has width O(log n), depth O(n log n), and O(n) parameters, with n=O((d+1/epsilon)^(16(1/epsilon)^(2/s))).",
+  "assumptions": {
+    "dimension": "d >= 2 in the Appendix D case analysis",
+    "accuracy": "epsilon > 0",
+    "target": "f in H_u^s([-pi,pi]^d), range [0,1]",
+    "resource_model": "the paper's constructive gate synthesis"
+  },
+  "machine_acceptance": {
+    "every_integer_n_2_through_8192": true,
+    "boundary_values_through_2_pow_30_plus_1": true,
+    "all_three_asymptotic_bounds": true,
+    "negative_controls_detected": true,
+    "independent_checker_required": true
+  },
+  "allowed_verdicts": ["VERIFIED", "FALSIFIED", "BLOCKED"]
+}

@@ -1,0 +1,14 @@
+{
+  "claim_id": 4,
+  "paper": "arXiv:2602.09718",
+  "source_anchor": "Section 3.1, Lemma 3; Appendix D",
+  "statement": "An n-qubit multiplexor-Ry or multiplexor-Rz uses at most 2^(n-1) CNOTs; the controlled-Rz spectrum-selection synthesis contributes O(log n) depth per layer in Theorem 2.",
+  "machine_acceptance": {
+    "multiplexor_qubits": [2, 3, 4, 5, 6],
+    "rotation_kinds": ["Ry", "Rz"],
+    "exact_unitary_tolerance": 1e-12,
+    "exact_CNOT_bound": true,
+    "drop_one_CNOT_control": true
+  },
+  "allowed_verdicts": ["VERIFIED", "FALSIFIED", "BLOCKED"]
+}

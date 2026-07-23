@@ -1,0 +1,27 @@
+{
+  "dataset": "ICML-2026-agent-repro/verdicts",
+  "dataset_revision": "bf724f10201a57c138f86e6677b543750724ae77",
+  "download_sha256": "8b30181aa7db8c42e973c4f580172c3e9a705f416c99010b6dcee70d63cc5e21",
+  "filter": {
+    "field": "space_id",
+    "value": "DineshAI/QaHFVheV8X",
+    "match_count": 1
+  },
+  "record": {
+    "space_id": "DineshAI/QaHFVheV8X",
+    "orid": "QaHFVheV8X",
+    "paper_title": "SAQNN: Spectral Adaptive Quantum Neural Network as a Universal Approximator",
+    "sha": "57218a49b75b419e3947e836a449696177740498",
+    "judged_at": "2026-07-23T06:49:08+00:00",
+    "model": "zai-org/GLM-5.2",
+    "quality": "medium",
+    "overall": "Claims 2-5 are verified. Claim 1 is toy because its positive evidence is d=1 with three hand-picked functions, while its attempted falsification uses an out-of-scope signed target.",
+    "claim_verdicts": [
+      "toy",
+      "verified",
+      "verified",
+      "verified",
+      "verified"
+    ]
+  }
+}
