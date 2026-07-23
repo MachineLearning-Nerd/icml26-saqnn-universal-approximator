@@ -1,0 +1,121 @@
+{
+  "claim": "Theorem 1 universal approximation for [0,1]-valued L2 targets",
+  "contract": {
+    "accuracy_quantifier": "every epsilon > 0",
+    "anchors": {
+      "coefficient_encoding": "$|a_r|^2=|c_r|/a$",
+      "fourier_density": "For any $f\\in L_2([-\\pi,\\pi]^d)$ and $\\epsilon>0$",
+      "modulus_reduction": "|f_k| - f",
+      "observable": "global observable $O=\\ket{0}\\bra{0}$",
+      "quantifier": "For any multivariate square-integrable function",
+      "target_domain_and_range": "f: [-\\pi,\\pi]^d\\rightarrow [0,1]"
+    },
+    "norm": "normalized grid/Monte-Carlo L2; analytic proof uses source L2",
+    "parameter_quantifier": "there exist theta, phi, and positive rescale a",
+    "source_sha256": "6ebdba9491251535fcd966fafe13ac735220a9aae9225e4f0391d558683d5ff2",
+    "target_range": "[0,1]"
+  },
+  "finite_construction": {
+    "all_exact": true,
+    "all_in_scope": true,
+    "dimensions": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "evaluation_cells": 131072,
+    "maximum_circuit_output_error": 5.551115123125783e-16,
+    "maximum_state_prep_encoding_error": 2.220446049250313e-16,
+    "maximum_state_prep_unitarity_error": 8.881784197001252e-16,
+    "maximum_target_imaginary_residual": 3.469446951953614e-17,
+    "random_polynomials": 128,
+    "seed": 260209718,
+    "target_maximum": 0.8799999969046882,
+    "target_minimum": 0.12000000000085526,
+    "terms_by_dimension": {
+      "1": 3,
+      "2": 9,
+      "3": 27,
+      "4": 81
+    }
+  },
+  "general_target_convergence": {
+    "all_final_l2_below_0_18": true,
+    "all_targets_improve": true,
+    "all_targets_in_scope": true,
+    "maximum_modulus_inequality_violation": 0.0,
+    "proof_inequality_holds": true,
+    "seed": 260209719,
+    "targets": {
+      "checker_2d": {
+        "final_ci95": 0.0033137391413338322,
+        "final_degree": 8,
+        "final_l2": 0.15970321558632863,
+        "final_terms": 289,
+        "improvement_ratio": 0.5393012231854498,
+        "initial_l2": 0.2961298968376554
+      },
+      "jump_1d": {
+        "final_ci95": 0.0032155712556936637,
+        "final_degree": 32,
+        "final_l2": 0.044232457618101496,
+        "final_terms": 65,
+        "improvement_ratio": 0.23634055223943704,
+        "initial_l2": 0.18715559898197037
+      },
+      "smooth_1d": {
+        "final_ci95": 0.00013749019942629396,
+        "final_degree": 32,
+        "final_l2": 0.007863493408287832,
+        "final_terms": 65,
+        "improvement_ratio": 0.060762737858272305,
+        "initial_l2": 0.12941308580645675
+      },
+      "smooth_2d": {
+        "final_ci95": 0.00031573005331812527,
+        "final_degree": 8,
+        "final_l2": 0.03217299557841805,
+        "final_terms": 289,
+        "improvement_ratio": 0.23849205141454688,
+        "initial_l2": 0.13490175201895913
+      },
+      "smooth_3d": {
+        "final_ci95": 0.0009410201028559852,
+        "final_degree": 4,
+        "final_l2": 0.0284009575241134,
+        "final_terms": 729,
+        "improvement_ratio": 0.4099927739566972,
+        "initial_l2": 0.06927184898900941
+      },
+      "smooth_4d": {
+        "final_ci95": 0.0010618923032304217,
+        "final_degree": 3,
+        "final_l2": 0.030590988372676462,
+        "final_terms": 2401,
+        "improvement_ratio": 0.5102004460276512,
+        "initial_l2": 0.05995876446375848
+      }
+    },
+    "total_holdout_evaluations": 118784
+  },
+  "limitations": [
+    "Finite computation cannot enumerate the theorem's uncountable target class.",
+    "Universality relies on the source-cited L2 density of trigonometric polynomials; this audit machine-checks the SAQNN reduction and broad finite consequences.",
+    "Monte-Carlo L2 values are empirical support with 95% standard-error intervals, not the logical basis of the universal quantifier.",
+    "No hardware noise, training dynamics, or optimizer claim is tested."
+  ],
+  "negative_controls": {
+    "all_detected": {
+      "phase_dropped": true,
+      "term_dropped": true,
+      "wrong_state_amplitudes": true
+    },
+    "measured_l2_errors": {
+      "phase_dropped": 0.5398774299869581,
+      "term_dropped": 0.4699384231818293,
+      "wrong_state_amplitudes": 0.3776482629542331
+    }
+  },
+  "verdict": "VERIFIED"
+}

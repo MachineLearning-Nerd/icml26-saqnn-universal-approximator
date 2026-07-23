@@ -1,0 +1,20 @@
+{
+  "backend": "local",
+  "compute": "Apple arm64 CPU, 8 logical CPUs",
+  "cost_usd": 0.0,
+  "exact_run_command": "uv sync --frozen && uv run --frozen python repro/run_all.py",
+  "formal_run": {
+    "experiment_id": "ba7751dd-18df-4f2c-8d16-d2532cba8052",
+    "git_sha": "1dae430f4215de55a2fa095dac096d22f7d5abaa",
+    "run_id": "4539bdaf-d6a8-4368-a55f-424fe691dd9d",
+    "runner_elapsed_seconds": 10.939392,
+    "verifier_elapsed_seconds": 2.1858779580215923
+  },
+  "independent_seed": 718092062,
+  "primary_seeds": [
+    260209718,
+    260209719
+  ],
+  "python": "3.12.11",
+  "uv_lock_sha256": "ca90fb40e1c1b24c8b84e8dd3f6809d1c5e91ca6833e9d2e72e1dc1b12e85f32"
+}

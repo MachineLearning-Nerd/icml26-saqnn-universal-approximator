@@ -1,0 +1,20 @@
+{
+  "cells": 10280,
+  "checker": "independent direct-sum Claim 1 audit",
+  "implementation_independence": "does not import verify_claim1_full",
+  "maximum_circuit_identity_error": 8.881784197001252e-16,
+  "maximum_modulus_inequality_violation": -4.5721204600113197e-10,
+  "obligations": {
+    "independent_identity_exact": true,
+    "independent_targets_in_scope": true,
+    "modulus_inequality_holds": true,
+    "primary_multivariate_coverage": true,
+    "primary_negative_controls_detected": true,
+    "primary_verdict_verified": true,
+    "source_hash_matches": true
+  },
+  "seed": 718092062,
+  "target_maximum": 0.849999338565427,
+  "target_minimum": 0.15000052076321901,
+  "verdict": "VERIFIED"
+}
