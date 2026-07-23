@@ -33,6 +33,13 @@ BASELINE_STEPS = (
     ("fail-closed baseline verifier", "repro/src/verify_claims.py"),
     ("Claim 2 exact resource proof", "repro/src/verify_c2_resource_proof.py"),
     ("Claim 2 independent resource audit", "repro/src/audit_c2_resource_proof.py"),
+    (
+        "judged SAQNN circuit and basis regression",
+        "repro/src/verify_c0c4_saqnn_circuit.py",
+    ),
+    ("judged Claim 2 complexity regression", "repro/src/verify_c2_complexity.py"),
+    ("judged Claim 4 multiplexor regression", "repro/src/verify_c4_lemma3.py"),
+    ("judged Claim 5 basis regression", "repro/src/verify_c5_basis.py"),
     ("baseline evidence hash bundle", "repro/src/build_evidence_bundle.py"),
 )
 
