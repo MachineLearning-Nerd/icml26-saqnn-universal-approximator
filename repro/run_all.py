@@ -40,6 +40,8 @@ BASELINE_STEPS = (
     ("judged Claim 2 complexity regression", "repro/src/verify_c2_complexity.py"),
     ("judged Claim 4 multiplexor regression", "repro/src/verify_c4_lemma3.py"),
     ("judged Claim 5 basis regression", "repro/src/verify_c5_basis.py"),
+    ("Claim 1 full multivariate verifier", "repro/src/verify_claim1_full.py"),
+    ("Claim 1 independent checker", "repro/src/check_claim1_independent.py"),
     ("baseline evidence hash bundle", "repro/src/build_evidence_bundle.py"),
 )
 
