@@ -103,6 +103,7 @@ def main() -> int:
             primary["finite_construction"]["dimensions"] == [1, 2, 3, 4]
         ),
     }
+    obligations = {name: bool(value) for name, value in obligations.items()}
     passed = all(obligations.values())
     result = {
         "checker": "independent direct-sum Claim 1 audit",
@@ -110,9 +111,9 @@ def main() -> int:
         "seed": SEED,
         "cells": cells,
         "maximum_modulus_inequality_violation": inequality_violation,
-        "maximum_circuit_identity_error": maximum_identity_error,
-        "target_minimum": minimum_target,
-        "target_maximum": maximum_target,
+        "maximum_circuit_identity_error": float(maximum_identity_error),
+        "target_minimum": float(minimum_target),
+        "target_maximum": float(maximum_target),
         "obligations": obligations,
         "verdict": "VERIFIED" if passed else "BLOCKED",
     }
