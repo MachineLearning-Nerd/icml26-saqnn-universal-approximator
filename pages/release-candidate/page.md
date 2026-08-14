@@ -25,8 +25,8 @@ history, and every judged path remains present in the candidate.
 The illustrated report and tutorial notebook are prepared on the winning
 GitHub branch:
 
-- [illustrated report](https://github.com/MachineLearning-Nerd/icml26-repro-QaHFVheV8X-saqnn-universal-approximator/blob/30ce1193b25e094a364cb5b2b8c676206290f86b/reports/saqnn-reproduction/report.md)
-- [tutorial marimo notebook](https://github.com/MachineLearning-Nerd/icml26-repro-QaHFVheV8X-saqnn-universal-approximator/blob/30ce1193b25e094a364cb5b2b8c676206290f86b/notebooks/saqnn_reproduction.py)
+- [illustrated report](https://github.com/MachineLearning-Nerd/icml26-saqnn-universal-approximator/blob/30ce1193b25e094a364cb5b2b8c676206290f86b/reports/saqnn-reproduction/report.md)
+- [tutorial marimo notebook](https://github.com/MachineLearning-Nerd/icml26-saqnn-universal-approximator/blob/30ce1193b25e094a364cb5b2b8c676206290f86b/notebooks/saqnn_reproduction.py)
 
 Publication was explicitly approved. This evidence update is awaiting
 evaluation by the live judge; the official score remains 9/10 until that

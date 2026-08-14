@@ -51,8 +51,8 @@ Evidence:
 - `evidence/claim-1-full-scale/independent_checker.json`
 - `evidence/claim-1-full-scale/negative_controls.json`
 - `evidence/claim-1-full-scale/EVAL.md`
-- [exact verifier source at the winning Git SHA](https://github.com/MachineLearning-Nerd/icml26-repro-QaHFVheV8X-saqnn-universal-approximator/blob/30ce1193b25e094a364cb5b2b8c676206290f86b/repro/src/verify_claim1_full.py)
-- [independent checker at the winning Git SHA](https://github.com/MachineLearning-Nerd/icml26-repro-QaHFVheV8X-saqnn-universal-approximator/blob/30ce1193b25e094a364cb5b2b8c676206290f86b/repro/src/check_claim1_independent.py)
+- [exact verifier source at the winning Git SHA](https://github.com/MachineLearning-Nerd/icml26-saqnn-universal-approximator/blob/30ce1193b25e094a364cb5b2b8c676206290f86b/repro/src/verify_claim1_full.py)
+- [independent checker at the winning Git SHA](https://github.com/MachineLearning-Nerd/icml26-saqnn-universal-approximator/blob/30ce1193b25e094a364cb5b2b8c676206290f86b/repro/src/check_claim1_independent.py)
 
 Limitations: finite computation cannot enumerate an uncountable L2 class.
 Monte Carlo curves support the construction but do not replace the cited
