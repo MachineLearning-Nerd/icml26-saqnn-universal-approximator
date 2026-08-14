@@ -1,0 +1,38 @@
+{
+  "claim": "C0_SAQNN_circuit_forward_map_and_C4_basis_switching",
+  "paper": "arXiv:2602.09718 Thm 1 / Sec 3.2",
+  "state_prep_is_unitary": true,
+  "state_prep_encodes_p": true,
+  "circuit_realizes_spectrum_d1_max_err": 2.482534153247273e-16,
+  "circuit_correct_d1": true,
+  "circuit_realizes_spectrum_d2_max_err": 2.118352371637509e-16,
+  "circuit_correct_d2": true,
+  "circuit_reconstructs_trig_target_max_err": 3.3306690738754696e-16,
+  "circuit_approximates_exactly": true,
+  "circuit_realizes_chebyshev_Tk_max_err": 4.440892098500626e-16,
+  "basis_switch_circuit_exact": true,
+  "circuit_chebyshev_approx": [
+    {
+      "n": 2,
+      "L2_err": 0.07071236
+    },
+    {
+      "n": 4,
+      "L2_err": 0.00115535
+    },
+    {
+      "n": 8,
+      "L2_err": 4e-08
+    },
+    {
+      "n": 12,
+      "L2_err": 0.0
+    },
+    {
+      "n": 16,
+      "L2_err": 0.0
+    }
+  ],
+  "circuit_chebyshev_converges": true,
+  "verdict": "supports"
+}

@@ -1,0 +1,111 @@
+{
+  "claim": "C4_Lemma3_multiplexor_Rk_CNOT_count",
+  "paper": "arXiv:2602.09718 Lemma 3",
+  "cases": [
+    {
+      "n_qubits": 2,
+      "k_controls": 1,
+      "kind": "Ry",
+      "cnot_count": 2,
+      "lemma3_bound_2^(n-1)": 2,
+      "count_matches_bound": true,
+      "unitary_max_err": 0.0,
+      "decomposition_exact": true
+    },
+    {
+      "n_qubits": 2,
+      "k_controls": 1,
+      "kind": "Rz",
+      "cnot_count": 2,
+      "lemma3_bound_2^(n-1)": 2,
+      "count_matches_bound": true,
+      "unitary_max_err": 0.0,
+      "decomposition_exact": true
+    },
+    {
+      "n_qubits": 3,
+      "k_controls": 2,
+      "kind": "Ry",
+      "cnot_count": 4,
+      "lemma3_bound_2^(n-1)": 4,
+      "count_matches_bound": true,
+      "unitary_max_err": 0.0,
+      "decomposition_exact": true
+    },
+    {
+      "n_qubits": 3,
+      "k_controls": 2,
+      "kind": "Rz",
+      "cnot_count": 4,
+      "lemma3_bound_2^(n-1)": 4,
+      "count_matches_bound": true,
+      "unitary_max_err": 0.0,
+      "decomposition_exact": true
+    },
+    {
+      "n_qubits": 4,
+      "k_controls": 3,
+      "kind": "Ry",
+      "cnot_count": 8,
+      "lemma3_bound_2^(n-1)": 8,
+      "count_matches_bound": true,
+      "unitary_max_err": 0.0,
+      "decomposition_exact": true
+    },
+    {
+      "n_qubits": 4,
+      "k_controls": 3,
+      "kind": "Rz",
+      "cnot_count": 8,
+      "lemma3_bound_2^(n-1)": 8,
+      "count_matches_bound": true,
+      "unitary_max_err": 0.0,
+      "decomposition_exact": true
+    },
+    {
+      "n_qubits": 5,
+      "k_controls": 4,
+      "kind": "Ry",
+      "cnot_count": 16,
+      "lemma3_bound_2^(n-1)": 16,
+      "count_matches_bound": true,
+      "unitary_max_err": 0.0,
+      "decomposition_exact": true
+    },
+    {
+      "n_qubits": 5,
+      "k_controls": 4,
+      "kind": "Rz",
+      "cnot_count": 16,
+      "lemma3_bound_2^(n-1)": 16,
+      "count_matches_bound": true,
+      "unitary_max_err": 0.0,
+      "decomposition_exact": true
+    },
+    {
+      "n_qubits": 6,
+      "k_controls": 5,
+      "kind": "Ry",
+      "cnot_count": 32,
+      "lemma3_bound_2^(n-1)": 32,
+      "count_matches_bound": true,
+      "unitary_max_err": 0.0,
+      "decomposition_exact": true
+    },
+    {
+      "n_qubits": 6,
+      "k_controls": 5,
+      "kind": "Rz",
+      "cnot_count": 32,
+      "lemma3_bound_2^(n-1)": 32,
+      "count_matches_bound": true,
+      "unitary_max_err": 0.0,
+      "decomposition_exact": true
+    }
+  ],
+  "all_decompositions_exact": true,
+  "all_cnot_counts_equal_2^(n-1)": true,
+  "negative_control_drop1cnot_err": 1.403972,
+  "negative_control_detects": true,
+  "verdict": "supports"
+}

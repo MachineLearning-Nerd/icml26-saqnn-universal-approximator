@@ -1,0 +1,99 @@
+{
+  "claim": "C2_Theorem2_SAQNN_circuit_complexity",
+  "paper": "arXiv:2602.09718 Theorem 2",
+  "resources": [
+    {
+      "n": 4,
+      "width_qubits": 4,
+      "depth_2q": 28,
+      "num_params": 8,
+      "log2n": 2.0
+    },
+    {
+      "n": 8,
+      "width_qubits": 5,
+      "depth_2q": 72,
+      "num_params": 16,
+      "log2n": 3.0
+    },
+    {
+      "n": 16,
+      "width_qubits": 6,
+      "depth_2q": 176,
+      "num_params": 32,
+      "log2n": 4.0
+    },
+    {
+      "n": 32,
+      "width_qubits": 7,
+      "depth_2q": 416,
+      "num_params": 64,
+      "log2n": 5.0
+    },
+    {
+      "n": 64,
+      "width_qubits": 8,
+      "depth_2q": 960,
+      "num_params": 128,
+      "log2n": 6.0
+    },
+    {
+      "n": 128,
+      "width_qubits": 9,
+      "depth_2q": 2176,
+      "num_params": 256,
+      "log2n": 7.0
+    },
+    {
+      "n": 256,
+      "width_qubits": 10,
+      "depth_2q": 4864,
+      "num_params": 512,
+      "log2n": 8.0
+    }
+  ],
+  "width_over_log2n": [
+    2.0,
+    1.667,
+    1.5,
+    1.4,
+    1.333,
+    1.286,
+    1.25
+  ],
+  "params_over_n": [
+    2.0,
+    2.0,
+    2.0,
+    2.0,
+    2.0,
+    2.0,
+    2.0
+  ],
+  "depth_over_n_log2n": [
+    3.5,
+    3.0,
+    2.75,
+    2.6,
+    2.5,
+    2.429,
+    2.375
+  ],
+  "width_is_Theta_log_n": true,
+  "params_is_Theta_n": true,
+  "depth_is_Theta_n_log_n": true,
+  "loglog_slope_width_vs_n": 0.217,
+  "loglog_slope_params_vs_n": 1.0,
+  "loglog_slope_depth_vs_n": 1.236,
+  "negative_control_dense_width_over_log2n": [
+    2.0,
+    2.67,
+    4.0,
+    6.4,
+    10.67,
+    18.29,
+    32.0
+  ],
+  "negative_control_dense_violates_logn": true,
+  "verdict": "supports"
+}

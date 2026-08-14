@@ -1,0 +1,67 @@
+{
+  "claim": "C5_Fourier_Chebyshev_basis_switching",
+  "paper": "arXiv:2602.09718 Sec 3.2",
+  "fourier_periodic": [
+    {
+      "k": 1,
+      "L2_err": 0.41233425
+    },
+    {
+      "k": 2,
+      "L2_err": 0.21210614
+    },
+    {
+      "k": 3,
+      "L2_err": 0.0
+    },
+    {
+      "k": 4,
+      "L2_err": 0.0
+    },
+    {
+      "k": 6,
+      "L2_err": 0.0
+    },
+    {
+      "k": 8,
+      "L2_err": 0.0
+    }
+  ],
+  "fourier_converges": true,
+  "chebyshev_nonperiodic": [
+    {
+      "k": 2,
+      "L2_err": 0.2215524939
+    },
+    {
+      "k": 4,
+      "L2_err": 0.0163438565
+    },
+    {
+      "k": 6,
+      "L2_err": 0.0007027563
+    },
+    {
+      "k": 8,
+      "L2_err": 1.83734e-05
+    },
+    {
+      "k": 12,
+      "L2_err": 4.1e-09
+    },
+    {
+      "k": 16,
+      "L2_err": 0.0
+    }
+  ],
+  "chebyshev_converges": true,
+  "adaptivity_nonperiodic_k16": {
+    "fourier_L2_err": 0.011321,
+    "chebyshev_L2_err": 0.006455,
+    "chebyshev_better_ratio": 1.754
+  },
+  "chebyshev_beats_fourier_on_nonperiodic": true,
+  "bases_distinct_T3_vs_cos3_L2diff": 0.9821,
+  "bases_are_distinct": true,
+  "verdict": "supports"
+}

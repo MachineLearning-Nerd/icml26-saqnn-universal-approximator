@@ -1,29 +1,42 @@
 # Status
 
 - Paper: `QaHFVheV8X` — *SAQNN: Spectral Adaptive Quantum Neural Network as a Universal Approximator*
-- Owner: `codex-saqnn-three-claims`
-- State: `publication_queued`
-- Effective contract: 3 live claims / 6 possible points
-- Primary source: arXiv `2602.09718`, source SHA-256 `0909b548f500f6a09dbade8b9caba91ff5f8525d0e6f3bb7ebde866f74b1e3bd`
-- Author code: none in the accepted source; clean-room implementation required
+- Authors: Jialiang Tang, Jialin Zhang, and Xiaoming Sun
+- Repository: `MachineLearning-Nerd/icml26-saqnn-universal-approximator`
+- State: `verified_scoped`
+- Evidence-release gate: `PASSED`
+- Overall status: `VERIFIED_SCOPED`
+- Strict paper-level gate: `NOT_READY`
+- Official live challenge score: `9/10` (not changed or rejudged here)
+- Official author executable: none found in the accepted source
 
-## Completed local gate
+## Claim status
 
-Source archive and PDF are retained and pinned. The preliminary audit found
-that the current live claims are broader than the source theorem statements:
-Theorem 1 requires a `[0,1]`-valued target; the claimed polynomial circuit
-advantage is only a fixed-accuracy/high-dimension comparison; and Theorem 2
-states an upper construction before the source argues optimality from external
-approximation results.
+The repository retains five claim contracts. C1–C5 are verified within their
+declared source scopes. The official live contract contains three claims and
+six possible points; `outputs/claim_verification.json` records all three live
+claims complete for `6/6`. C1 explicitly narrows the paper construction to
+`[0,1]`-valued L2 targets, and C3 separates fixed-accuracy/high-dimensional
+circuit comparison from fixed-dimension/high-accuracy parameter rates.
 
-All three regression tests pass and the fail-closed verifier reports all three
-live claims complete for 6/6 local points. The public evidence repository is
-`MachineLearning-Nerd/icml26-repro-QaHFVheV8X-saqnn-universal-approximator` at
-commit `d9c1e37a1984636e1771f480eda0a35b6a86afe1`. After that push, the
-gate-complete paper was atomically added as canonical backlog entry 71.
+## Evidence boundary
 
-## Next action
+The source archive, PDF, and TeX are pinned under `docs/`. The formal run uses
+the frozen `uv.lock` environment and local Apple arm64 CPU. The exact command
+is:
 
-Await the single shared Hugging Face backlog drain. After it creates the Space,
-verify the public tags, commit SHA, and artifact bucket, then record the
-readback here and in the shared coordination row.
+```bash
+uv sync --frozen && uv run --frozen python repro/run_all.py
+```
+
+The finite constructions, independent checkers, negative controls, and
+release-asset checks are retained under `.openresearch/artifacts/` and
+`evidence/`. They support the paper's mechanisms but do not replace the cited
+L2-density theorem or prove a universal asymptotic claim by enumeration.
+
+## Next review point
+
+If the external challenge judge publishes a new verdict, update the score and
+live-contract readback separately from this clean-room evidence gate. Until
+then, keep the `9/10` score unchanged and treat the repository as a public
+reproduction handoff.

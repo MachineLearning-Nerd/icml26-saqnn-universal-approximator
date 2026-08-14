@@ -2,5 +2,5 @@
   "tests_passed": true,
   "returncode": 0,
   "stdout": "",
-  "stderr": "test_claim_2_conditional_circuit_advantage (test_audit.AuditTests.test_claim_2_conditional_circuit_advantage) ... ok\ntest_claim_3_fixed_dimension_parameter_rate (test_audit.AuditTests.test_claim_3_fixed_dimension_parameter_rate) ... ok\ntest_source_and_claim_1_range_counterexample (test_audit.AuditTests.test_source_and_claim_1_range_counterexample) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.039s\n\nOK\n"
+  "stderr": "test_claim_2_conditional_circuit_advantage (test_audit.AuditTests.test_claim_2_conditional_circuit_advantage) ... ok\ntest_claim_3_fixed_dimension_parameter_rate (test_audit.AuditTests.test_claim_3_fixed_dimension_parameter_rate) ... ok\ntest_source_and_claim_1_range_counterexample (test_audit.AuditTests.test_source_and_claim_1_range_counterexample) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.018s\n\nOK\n"
 }
